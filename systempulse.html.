@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="SystemPulse — a local-first system intelligence and behavioral analysis project by Nachiket Narkhede.">
+  <title>SystemPulse | Nachiket Narkhede</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --panel: rgba(13, 29, 48, .82);
+      --line: rgba(145, 190, 220, .18);
+      --text: #eaf4ff;
+      --muted: #a5b7ca;
+      --cyan: #68e2f2;
+      --blue: #8fb8ff;
+      --green: #a4f2d0;
+      --radius: 19px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 85% 0%, rgba(31,113,159,.20), transparent 34rem),
+        radial-gradient(ellipse at 0% 50%, rgba(40,75,140,.12), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.75 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .14;
+      background-image:
+        linear-gradient(rgba(112,181,214,.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(112,181,214,.14) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    a:focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    .wrap {
+      width: min(1080px, calc(100% - 36px));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(7,17,31,.88);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+
+    nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand { font-weight: 800; letter-spacing: -.03em; }
+    .brand span { color: var(--cyan); }
+    .back { color: var(--muted); font-size: .9rem; }
+    .back:hover, .inline-link:hover { color: var(--cyan); }
+
+    main { padding: 72px 0 85px; }
+
+    .eyebrow {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: .17em;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: .98;
+      letter-spacing: -.07em;
+      margin: 1rem 0;
+    }
+
+    .gradient {
+      color: transparent;
+      background: linear-gradient(100deg, #f1f8ff, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .lede {
+      max-width: 800px;
+      color: #bdccdb;
+      font-size: clamp(1.04rem, 2vw, 1.2rem);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      margin: 1.8rem 0 3rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .75rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      font-size: .88rem;
+      font-weight: 750;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(104,226,242,.55);
+    }
+
+    .primary {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      color: #06111d;
+    }
+
+    .primary:hover { color: #06111d; background: #a0f3fa; }
+
+    .section { margin-top: 3.5rem; }
+
+    .section-head { margin-bottom: 1.35rem; }
+
+    .section-label {
+      color: var(--cyan);
+      font-size: .73rem;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-weight: 800;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 4vw, 2.5rem);
+      letter-spacing: -.045em;
+      line-height: 1.2;
+      margin: .35rem 0;
+    }
+
+    h3 { font-size: 1.08rem; margin: 0 0 .55rem; }
+
+    p { margin: .35rem 0 0; }
+
+    .muted { color: var(--muted); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      min-width: 0;
+      padding: 1.45rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: 0 16px 48px rgba(0,0,0,.10);
+    }
+
+    .wide { grid-column: 1 / -1; }
+
+    .number {
+      color: var(--cyan);
+      font: 750 .75rem ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .12em;
+      margin-bottom: .7rem;
+    }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: .7rem;
+      margin-top: 1.3rem;
+    }
+
+    .stage {
+      border: 1px solid rgba(104,226,242,.23);
+      background: rgba(104,226,242,.045);
+      border-radius: 12px;
+      padding: .85rem .7rem;
+      text-align: center;
+    }
+
+    .stage strong { display: block; font-size: .85rem; }
+    .stage span { color: var(--muted); font-size: .75rem; }
+
+    .stage-arrow {
+      display: block;
+      color: var(--cyan);
+      font-size: 1rem;
+      margin: .3rem 0;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      color: #b8dce7;
+      background: rgba(104,226,242,.045);
+      border: 1px solid rgba(104,226,242,.17);
+      border-radius: 7px;
+      padding: .25rem .55rem;
+      font-size: .74rem;
+    }
+
+    ul { margin: .5rem 0 0; padding-left: 1.2rem; }
+    li { color: #bdccdb; padding: .2rem 0; }
+
+    .principle {
+      padding: .9rem 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .principle:first-of-type { border-top: 0; }
+    .principle strong { display: block; }
+    .principle p { color: var(--muted); font-size: .91rem; }
+
+    .callout {
+      border-left: 2px solid var(--cyan);
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.15rem;
+      background: rgba(104,226,242,.045);
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .inline-link { color: var(--cyan); font-weight: 700; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.4rem 0;
+      color: #8297ac;
+      font-size: .82rem;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 720px) {
+      main { padding-top: 48px; }
+      .grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+      .pipeline { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      nav { align-items: flex-start; flex-direction: column; padding: 1rem 0; }
+      .section { margin-top: 2.8rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <nav class="wrap" aria-label="Page navigation">
+      <a class="brand" href="index.html">NN <span>/ ENGINEERING</span></a>
+      <a class="back" href="index.html">← Back to portfolio</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div class="eyebrow">Project case study / 02</div>
+    <h1><span class="gradient">SystemPulse</span></h1>
+
+    <p class="lede">
+      Local-First System Intelligence &amp; Behavioral Analysis — an independent
+      project exploring how hardware telemetry, process activity, network
+      observations, and historical context can help explain system behavior.
+    </p>
+
+    <div class="actions">
+      <a class="button primary"
+         href="https://github.com/nachiketnarkhede/SystemPulse"
+         target="_blank" rel="noopener noreferrer">Explore source repository ↗</a>
+
+      <a class="button"
+         href="https://github.com/nachiketnarkhede/SystemPulse-Independent-Research-Paper-Local-First-System-Intelligence-Behavioral-Analysis"
+         target="_blank" rel="noopener noreferrer">Research paper repository ↗</a>
+
+      <a class="button"
+         href="https://www.linkedin.com/in/nachiket-narkhede"
+         target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-label">01 / Overview</div>
+        <h2>From raw telemetry to system context.</h2>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="number">THE PROBLEM</div>
+          <h3>Metrics do not always explain behavior</h3>
+          <p class="muted">
+            CPU utilization, memory consumption, disk activity, processes,
+            and network connections are useful observations. Viewed separately,
+            however, they may not explain why a system is behaving unusually.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="number">THE PROJECT IDEA</div>
+          <h3>Connect observations with context</h3>
+          <p class="muted">
+            SystemPulse is designed to bring system observations into a
+            unified architecture and explore how history, behavioral deviations,
+            evidence, and explanations can support deeper system understanding.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-label">02 / Conceptual architecture</div>
+        <h2>A system-level view.</h2>
+        <p class="muted">
+          This diagram summarizes the processing concept described in the
+          project README. It is not a performance benchmark or proof that
+          every stage is fully implemented.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="pipeline" aria-label="Conceptual SystemPulse analysis pipeline">
+          <div class="stage">
+            <strong>01. Observe</strong>
+            <span>System telemetry</span>
+          </div>
+          <div class="stage">
+            <strong>02. Organize</strong>
+            <span>Structured state</span>
+          </div>
+          <div class="stage">
+            <strong>03. Compare</strong>
+            <span>History and deviations</span>
+          </div>
+          <div class="stage">
+            <strong>04. Explain</strong>
+            <span>Evidence and context</span>
+          </div>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Local-first design</span>
+          <span class="tag">Behavioral context</span>
+          <span class="tag">System observability</span>
+          <span class="tag">Explainable findings</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-label">03 / Areas of analysis</div>
+        <h2>What the platform explores.</h2>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="number">01 — TELEMETRY</div>
+          <h3>Hardware and resource activity</h3>
+          <p class="muted">
+            CPU, memory, disk, device, and related system observations provide
+            a view of the machine's current state.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="number">02 — PROCESS CONTEXT</div>
+          <h3>Connecting activity to software</h3>
+          <p class="muted">
+            Process information can help put resource changes into context
+            and identify areas that may need further investigation.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="number">03 — NETWORK OBSERVATIONS</div>
+          <h3>Connectivity and endpoints</h3>
+          <p class="muted">
+            Network and Wi-Fi observations add another dimension to understanding
+            system state and changes in connectivity.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="number">04 — BEHAVIORAL ANALYSIS</div>
+          <h3>History and deviations</h3>
+          <p class="muted">
+            Comparing observations with recent behavior can provide context
+            for changes that might otherwise appear as isolated numbers.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="number">05 — RISK-AWARE INTERPRETATION</div>
+          <h3>Separate observation from conclusion</h3>
+          <p class="muted">
+            An unusual reading is not automatically a security threat.
+            Context and evidence matter before a finding can be interpreted.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="number">06 — REPORTING</div>
+          <h3>Evidence that can be reviewed</h3>
+          <p class="muted">
+            The project describes reporting and research-oriented features
+            intended to help users preserve observations and examine system behavior.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-label">04 / Design principles</div>
+        <h2>Engineering beyond the dashboard.</h2>
+      </div>
+
+      <article class="card">
+        <div class="principle">
+          <strong>Observe before judging</strong>
+          <p>A CPU spike or listening endpoint is an observation, not automatically a diagnosis or vulnerability.</p>
+        </div>
+
+        <div class="principle">
+          <strong>Prefer local-first processing</strong>
+          <p>System telemetry can be sensitive. The project describes a design that prioritizes local collection and analysis.</p>
+        </div>
+
+        <div class="principle">
+          <strong>Keep explanations connected to evidence</strong>
+          <p>Useful system intelligence should communicate why a finding matters instead of presenting an unexplained score alone.</p>
+        </div>
+
+        <div class="principle">
+          <strong>Consider behavior over time</strong>
+          <p>A resource level can mean different things depending on recent activity and what the machine is doing.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-label">05 / Technical direction</div>
+        <h2>Where systems and intelligence meet.</h2>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h3>System observability</h3>
+          <p class="muted">
+            Exploring how individual telemetry sources can contribute to a
+            broader understanding of machine behavior.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Explainable system intelligence</h3>
+          <p class="muted">
+            Exploring how evidence and context can help make system findings
+            easier to interpret and investigate.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Privacy-aware architecture</h3>
+          <p class="muted">
+            Considering the importance of keeping potentially sensitive
+            machine observations local wherever the architecture permits.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Research and evaluation</h3>
+          <p class="muted">
+            Further evaluation can examine detection quality, false positives,
+            resource overhead, cross-platform behavior, and the limits of
+            behavioral interpretation.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-label">06 / Limitations</div>
+        <h2>Evidence matters.</h2>
+      </div>
+
+      <div class="callout">
+        SystemPulse should not be treated as a guaranteed malware detector or
+        a substitute for established security tools. An anomaly is not proof
+        of malicious activity. Actual capabilities, platform compatibility,
+        and implementation status should be checked against the source code
+        and project documentation. This page does not claim independent
+        validation or benchmark results.
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-label">07 / Project resources</div>
+        <h2>Explore the original work.</h2>
+      </div>
+
+      <div class="card">
+        <h3>SystemPulse source repository</h3>
+        <p class="muted">
+          Read the project overview, inspect its structure, and review the
+          implementation and current development status.
+        </p>
+        <p><a class="inline-link"
+          href="https://github.com/nachiketnarkhede/SystemPulse"
+          target="_blank" rel="noopener noreferrer">Open source repository ↗</a></p>
+
+        <h3 style="margin-top:1.5rem">Independent research-paper repository</h3>
+        <p class="muted">
+          A separate repository associated with the local-first system
+          intelligence and behavioral analysis topic.
+        </p>
+        <p><a class="inline-link"
+          href="https://github.com/nachiketnarkhede/SystemPulse-Independent-Research-Paper-Local-First-System-Intelligence-Behavioral-Analysis"
+          target="_blank" rel="noopener noreferrer">Open research-paper repository ↗</a></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="callout">
+        <strong>Project note:</strong> This case study summarizes the project's
+        stated direction and concepts. The source repository remains the
+        reference for implementation details, current functionality, and
+        project status. Inclusion of a research-paper repository does not
+        imply peer-reviewed publication.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>© <span id="year">2026</span> Nachiket Narkhede</span>
+      <a class="inline-link" href="index.html">Return to portfolio ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
