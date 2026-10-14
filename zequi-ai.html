@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="ZEQUI AI project case study by Nachiket Narkhede.">
+  <title>ZEQUI AI | Nachiket Narkhede</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --panel: #0d1d30;
+      --line: rgba(145,190,220,.18);
+      --text: #eaf4ff;
+      --muted: #a5b7ca;
+      --cyan: #68e2f2;
+      --blue: #8fb8ff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 85% 0%, rgba(31,113,159,.2), transparent 35rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.75 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+    .wrap { width: min(1040px, calc(100% - 36px)); margin: auto; }
+    header { border-bottom: 1px solid var(--line); }
+    nav {
+      min-height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .brand { font-weight: 800; letter-spacing: -.03em; }
+    .brand span { color: var(--cyan); }
+    .back { color: var(--muted); font-size: .9rem; }
+    .back:hover, a:hover { color: var(--cyan); }
+    main { padding: 72px 0; }
+    .eyebrow {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: .17em;
+      font-size: .76rem;
+      font-weight: 800;
+    }
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: -.065em;
+      margin: 1rem 0;
+    }
+    h1 span {
+      background: linear-gradient(100deg, #f0f8ff, var(--cyan), var(--blue));
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+    .lede { color: #bdccdb; font-size: 1.15rem; max-width: 760px; }
+    .actions { display: flex; flex-wrap: wrap; gap: .8rem; margin: 1.8rem 0 3rem; }
+    .button {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: .7rem 1rem;
+      font-weight: 700;
+    }
+    .primary { background: var(--cyan); color: #06111d; border-color: var(--cyan); }
+    .primary:hover { color: #06111d; background: #a0f3fa; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.4rem;
+      background: rgba(13,29,48,.78);
+    }
+    h2 { font-size: 1.45rem; letter-spacing: -.035em; margin: 0 0 .7rem; }
+    h3 { margin: 0 0 .5rem; font-size: 1.03rem; }
+    p { margin: .3rem 0 0; }
+    .muted { color: var(--muted); }
+    section { margin-top: 1.2rem; }
+    .label {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      font-size: .72rem;
+      font-weight: 800;
+      margin-bottom: .55rem;
+    }
+    ul { padding-left: 1.25rem; margin: .5rem 0 0; }
+    li { padding: .22rem 0; color: #bdccdb; }
+    .flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-top: 1rem;
+    }
+    .node {
+      border: 1px solid rgba(104,226,242,.25);
+      background: rgba(104,226,242,.06);
+      border-radius: 10px;
+      padding: .6rem .8rem;
+      font-size: .87rem;
+      font-weight: 650;
+    }
+    .arrow { color: var(--cyan); }
+    .note {
+      border-left: 2px solid var(--cyan);
+      padding: .8rem 1rem;
+      background: rgba(104,226,242,.04);
+      color: var(--muted);
+      border-radius: 0 10px 10px 0;
+      font-size: .9rem;
+    }
+    footer { border-top: 1px solid var(--line); padding: 1.4rem 0; color: #8297ac; font-size: .82rem; }
+    @media (max-width: 680px) {
+      main { padding: 48px 0; }
+      .grid { grid-template-columns: 1fr; }
+      nav { align-items: flex-start; padding: 1rem 0; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="Page navigation">
+      <a class="brand" href="index.html">NN <span>/ ENGINEERING</span></a>
+      <a class="back" href="index.html">← Back to portfolio</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div class="eyebrow">Project case study / 01</div>
+    <h1><span>ZEQUI AI</span></h1>
+    <p class="lede">
+      An independent software project exploring multi-provider AI orchestration,
+      fallback behavior, and continuity when external model services fail or become unavailable.
+    </p>
+
+    <div class="actions">
+      <a class="button primary" href="https://zequiai.netlify.app"
+         target="_blank" rel="noopener noreferrer">Open live demo ↗</a>
+      <a class="button" href="https://github.com/nachiketnarkhede/ZEQUI-AI-"
+         target="_blank" rel="noopener noreferrer">View source on GitHub ↗</a>
+      <a class="button" href="https://github.com/nachiketnarkhede/ZEQUI-AI-RESEARCH-PAPER"
+         target="_blank" rel="noopener noreferrer">Project paper repository ↗</a>
+    </div>
+
+    <section class="grid" aria-label="Project overview">
+      <article class="card">
+        <div class="label">01 / Motivation</div>
+        <h2>The engineering question</h2>
+        <p class="muted">
+          What happens when an application depends on external AI services and one
+          provider experiences an outage, timeout, or availability problem?
+          ZEQUI AI explores how an orchestration layer can respond to such failures.
+        </p>
+      </article>
+      <article class="card">
+        <div class="label">02 / Approach</div>
+        <h2>Orchestration and fallback</h2>
+        <p class="muted">
+          The project explores coordinating multiple model providers rather than
+          treating one external service as the only possible path. Consult the source
+          repository for the exact implementation and current behavior.
+        </p>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="label">03 / Architecture concept</div>
+      <h2>Provider flow</h2>
+      <p class="muted">
+        The following is a simplified conceptual view of a multi-provider fallback
+        strategy, not a live diagram of every internal code path.
+      </p>
+      <div class="flow" aria-label="Conceptual provider fallback flow">
+        <span class="node">Application request</span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span class="node">Primary provider</span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span class="node">Fallback provider(s)</span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span class="node">Response or error handling</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="label">04 / Design considerations</div>
+        <h2>Reliability is more than a response</h2>
+        <ul>
+          <li>How timeouts limit waiting on a slow service.</li>
+          <li>How fallback behavior can respond to provider failures.</li>
+          <li>How rate limits and network problems affect request flow.</li>
+          <li>How the application communicates failures to users.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <div class="label">05 / Learning outcomes</div>
+        <h2>Systems thinking</h2>
+        <p class="muted">
+          This project provides a practical setting to think about dependencies,
+          error handling, external service availability, and trade-offs in software
+          architecture. The repository contains the implementation details that
+          readers can inspect.
+        </p>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="label">06 / Limitations and next steps</div>
+      <h2>What should be evaluated</h2>
+      <p class="muted">
+        Fallback does not guarantee uninterrupted service. Providers can share
+        dependencies, credentials can fail, and a successful request can still
+        return an unsuitable result. Useful next steps include testing failure
+        scenarios, documenting provider-specific behavior, and measuring latency
+        and recovery under repeatable conditions.
+      </p>
+    </section>
+
+    <section class="note">
+      <strong>Project status and evidence:</strong>
+      This page is a high-level overview. For exact features, implementation,
+      dependencies, and current status, refer to the linked source repository.
+      No claim of independent validation or production-grade reliability is made here.
+    </section>
+
+    <section class="card">
+      <div class="label">07 / Links</div>
+      <h2>Explore the project</h2>
+      <p class="muted">Review the source code, try the demo, or read the associated documentation.</p>
+      <ul>
+        <li><a href="https://github.com/nachiketnarkhede/ZEQUI-AI-" target="_blank" rel="noopener noreferrer">ZEQUI AI source repository ↗</a></li>
+        <li><a href="https://zequiai.netlify.app" target="_blank" rel="noopener noreferrer">ZEQUI AI live demo ↗</a></li>
+        <li><a href="https://github.com/nachiketnarkhede/ZEQUI-AI-RESEARCH-PAPER" target="_blank" rel="noopener noreferrer">Research-paper repository ↗</a></li>
+        <li><a href="https://www.linkedin.com/in/nachiket-narkhede" target="_blank" rel="noopener noreferrer">LinkedIn profile ↗</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="year">2026</span> Nachiket Narkhede</span>
+      · <a href="index.html">Return to portfolio</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
