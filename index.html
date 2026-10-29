@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f2ec">
+  <meta name="description" content="Nachiket Narkhede — electronics, computing, and intelligent systems. Projects, experiments, and engineering notes.">
+  <title>Nachiket Narkhede — Engineering, in progress</title>
+  <style>
+    :root {
+      --paper: #f4f2ec;
+      --ink: #171916;
+      --muted: #686b63;
+      --line: #d9d8d0;
+      --blue: #254de8;
+      --blue-dark: #1737b4;
+      --lime: #d6f36a;
+      --white: #fffefa;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+    .wrap { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; min-height:76px; border-bottom:1px solid var(--line); gap:24px; }
+    .wordmark { font-size:14px; font-weight:750; letter-spacing:-.04em; }
+    .wordmark span { color:var(--blue); }
+    .nav { display:flex; align-items:center; gap:24px; font-size:12px; color:var(--muted); }
+    .nav a:hover { color:var(--blue); }
+    .availability { display:flex; align-items:center; gap:8px; font:10px var(--mono); text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+    .dot { width:7px; height:7px; background:#79a53a; border-radius:50%; box-shadow:0 0 0 3px #79a53a20; }
+    .hero { display:grid; grid-template-columns:minmax(0, 1.35fr) minmax(280px, .65fr); gap:64px; padding:78px 0 70px; align-items:center; }
+    .eyebrow { font:11px var(--mono); color:var(--blue); text-transform:uppercase; letter-spacing:.1em; }
+    h1 { font-size:clamp(58px, 8.4vw, 116px); line-height:.88; letter-spacing:-.095em; font-weight:650; margin:27px 0 27px; max-width:790px; }
+    h1 .serif { font-family:var(--serif); font-weight:400; font-style:italic; letter-spacing:-.085em; }
+    .intro { font-size:clamp(16px, 1.7vw, 20px); line-height:1.6; max-width:530px; color:#444840; letter-spacing:-.025em; }
+    .intro strong { color:var(--ink); font-weight:650; }
+    .hero-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
+    .pill { display:inline-flex; gap:10px; align-items:center; border:1px solid var(--line); border-radius:999px; padding:11px 15px; font-size:12px; transition:background .2s, color .2s, border-color .2s; }
+    .pill.primary { background:var(--blue); color:white; border-color:var(--blue); }
+    .pill:hover { border-color:var(--blue); color:var(--blue); }
+    .pill.primary:hover { background:var(--blue-dark); color:white; }
+    .portrait-panel { position:relative; max-width:370px; justify-self:end; width:100%; }
+    .portrait-frame { position:relative; aspect-ratio:4 / 5; padding:11px; background:var(--white); border:1px solid var(--line); transform:rotate(2deg); box-shadow:14px 18px 0 #1b21100b; }
+    .portrait-frame img { width:100%; height:100%; object-fit:cover; object-position:center 28%; display:block; filter:saturate(.86); }
+    .portrait-caption { display:flex; justify-content:space-between; gap:12px; margin-top:20px; font:10px var(--mono); text-transform:uppercase; letter-spacing:.07em; color:var(--muted); }
+    .orbit { position:absolute; width:94px; height:94px; border:1px solid var(--blue); border-radius:50%; right:-27px; top:-26px; display:grid; place-items:center; color:var(--blue); font:10px var(--mono); text-align:center; line-height:1.4; background:var(--paper); transform:rotate(-10deg); }
+    .ticker { overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:15px 0; }
+    .ticker-inner { display:flex; justify-content:space-between; gap:22px; flex-wrap:wrap; font:10px var(--mono); color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+    .ticker b { color:var(--blue); font-weight:500; }
+    section { padding:84px 0; border-bottom:1px solid var(--line); }
+    .section-head { display:grid; grid-template-columns:180px 1fr; gap:35px; margin-bottom:38px; }
+    .section-number { font:11px var(--mono); color:var(--blue); text-transform:uppercase; letter-spacing:.08em; padding-top:10px; }
+    h2 { margin:0; font-size:clamp(36px, 5vw, 62px); letter-spacing:-.075em; line-height:.98; font-weight:600; }
+    .section-sub { max-width:550px; color:var(--muted); font-size:14px; line-height:1.7; margin:16px 0 0; }
+    .project-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
+    .project { position:relative; border:1px solid var(--line); background:var(--white); min-height:310px; padding:24px; display:flex; flex-direction:column; overflow:hidden; transition:transform .25s, border-color .25s; }
+    .project:hover { transform:translateY(-4px); border-color:#a5a8a0; }
+    .project.wide { grid-column:span 7; }
+    .project.narrow { grid-column:span 5; }
+    .project.full { grid-column:span 12; min-height:230px; }
+    .project-top { display:flex; justify-content:space-between; align-items:center; gap:12px; font:10px var(--mono); color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+    .project-type { color:var(--blue); }
+    .project h3 { font-size:clamp(27px,3vw,42px); letter-spacing:-.07em; line-height:1; margin:45px 0 13px; font-weight:620; }
+    .project p { color:var(--muted); max-width:480px; font-size:13px; line-height:1.7; margin:0; }
+    .project-bottom { margin-top:auto; padding-top:26px; display:flex; justify-content:space-between; align-items:center; gap:15px; font-size:11px; }
+    .tags { display:flex; flex-wrap:wrap; gap:6px; }
+    .tag { border:1px solid var(--line); padding:5px 8px; border-radius:99px; font-size:10px; color:#55594f; }
+    .arrow { width:32px; height:32px; border-radius:50%; display:grid; place-items:center; background:var(--blue); color:white; font-size:16px; flex-shrink:0; }
+    .graphic { position:absolute; right:18px; top:70px; width:120px; height:120px; opacity:.95; pointer-events:none; }
+    .project.wide .graphic { right:35px; width:155px; height:155px; }
+    .project h3, .project p, .project-bottom { position:relative; z-index:1; }
+    .project:nth-child(1) { background:#eeedff; }
+    .project:nth-child(1) .tag { border-color:#cbc8f4; }
+    .project:nth-child(2) { background:#e9f0e4; }
+    .project:nth-child(3) { background:#f0eee7; }
+    .signal { width:100%; height:100%; }
+    .notes-grid { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line); }
+    .note { padding:24px; min-height:180px; }
+    .note + .note { border-left:1px solid var(--line); }
+    .note .mini { font:10px var(--mono); color:var(--blue); text-transform:uppercase; letter-spacing:.08em; }
+    .note h3 { margin:25px 0 9px; font-size:18px; letter-spacing:-.04em; }
+    .note p { font-size:12px; line-height:1.7; color:var(--muted); margin:0; }
+    .about-layout { display:grid; grid-template-columns:180px 1fr; gap:35px; }
+    .about-copy { display:grid; grid-template-columns:1.1fr .9fr; gap:42px; }
+    .about-copy p { margin:0; font-size:16px; line-height:1.85; color:#484c44; }
+    .about-copy p strong { color:var(--ink); }
+    .principles { border-top:1px solid var(--line); }
+    .principle { display:flex; gap:20px; padding:14px 0; border-bottom:1px solid var(--line); font-size:12px; }
+    .principle span { font:10px var(--mono); color:var(--blue); }
+    .contact { background:var(--blue); color:white; padding:70px 0; border:0; }
+    .contact .section-number, .contact .eyebrow { color:var(--lime); }
+    .contact-inner { display:grid; grid-template-columns:180px 1fr; gap:35px; }
+    .contact h2 { max-width:780px; }
+    .contact-bottom { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-top:32px; }
+    .contact-bottom p { color:#e0e6ff; max-width:400px; font-size:13px; line-height:1.7; margin:0; }
+    .contact .pill { border-color:#ffffff75; color:white; }
+    .contact .pill:hover { background:white; color:var(--blue); }
+    footer { padding:22px 0; display:flex; justify-content:space-between; gap:20px; color:var(--muted); font:10px var(--mono); text-transform:uppercase; letter-spacing:.05em; }
+    .backtop { color:var(--blue); }
+    @media (max-width:760px) {
+      .wrap { width:min(100% - 36px, 1240px); }
+      .topbar { min-height:64px; }
+      .nav { gap:14px; }
+      .nav a:nth-child(2) { display:none; }
+      .availability { display:none; }
+      .hero { grid-template-columns:1fr; gap:42px; padding:55px 0 52px; }
+      .portrait-panel { justify-self:start; width:min(72%,320px); margin-left:12px; }
+      .orbit { width:78px; height:78px; right:-20px; }
+      .section-head, .about-layout, .contact-inner { grid-template-columns:1fr; gap:16px; }
+      section { padding:60px 0; }
+      .project.wide, .project.narrow, .project.full { grid-column:span 12; }
+      .project { min-height:300px; padding:20px; }
+      .project h3 { max-width:75%; margin-top:48px; }
+      .project p { max-width:80%; }
+      .graphic { width:95px; height:95px; top:84px; right:10px; }
+      .project.wide .graphic { width:110px; height:110px; right:10px; }
+      .notes-grid { grid-template-columns:1fr; }
+      .note + .note { border-left:0; border-top:1px solid var(--line); }
+      .about-copy { grid-template-columns:1fr; gap:22px; }
+      .contact-bottom { align-items:start; flex-direction:column; }
+      footer { flex-wrap:wrap; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+      *, *::before, *::after { transition:none !important; animation:none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap topbar">
+    <a class="wordmark" href="#top">NN<span>®</span> / FIELD NOTES</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#work">Selected work</a>
+      <a href="#approach">Approach</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact ↗</a>
+    </nav>
+    <div class="availability"><span class="dot"></span> Learning in public</div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow">Independent builder · Electronics & computing</div>
+        <h1>Making sense<br>of <span class="serif">systems.</span></h1>
+        <p class="intro">I'm <strong>Nachiket Narkhede</strong> — an electronics and telecommunication engineering student exploring the space between hardware, software, and intelligent systems.</p>
+        <p class="intro">This is a living archive of projects, experiments, and questions worth investigating.</p>
+        <div class="hero-links">
+          <a class="pill primary" href="#work">Explore selected work <span>↘</span></a>
+          <a class="pill" href="https://github.com/nachiketnarkhede" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a class="pill" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        </div>
+      </div>
+      <aside class="portrait-panel" aria-label="Portrait of Nachiket Narkhede">
+        <div class="orbit">HARDWARE<br>× SOFTWARE<br>× IDEAS</div>
+        <div class="portrait-frame"><img src="assets/profile.jpg" alt="Portrait of Nachiket Narkhede outdoors" fetchpriority="high"></div>
+        <div class="portrait-caption"><span>Personal archive / 2026—</span><span>India · IST</span></div>
+      </aside>
+    </div>
+
+    <div class="ticker" aria-label="Areas of interest">
+      <div class="wrap ticker-inner">
+        <span><b>01</b> Embedded systems</span><span><b>02</b> AI orchestration</span><span><b>03</b> Signal integrity</span><span><b>04</b> Semiconductor technology</span><span><b>05</b> Systems design</span>
+      </div>
+    </div>
+
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-number">01 / Selected work</div>
+          <div><h2>Built, tested,<br>still evolving.</h2><p class="section-sub">A few directions I'm exploring. Each project is a work in progress — documented with an emphasis on the decisions, trade-offs, and lessons behind the result.</p></div>
+        </div>
+        <div class="project-grid">
+          <article class="project wide">
+            <div class="project-top"><span class="project-type">AI systems · Product</span><span>PROJECT / 001</span></div>
+            <svg class="graphic signal" viewBox="0 0 160 160" fill="none" aria-hidden="true">
+              <circle cx="80" cy="80" r="58" stroke="#254de8" stroke-width="1"/>
+              <circle cx="80" cy="80" r="40" stroke="#254de8" stroke-width="1" stroke-dasharray="3 5"/>
+              <circle cx="80" cy="80" r="19" fill="#254de8"/>
+              <path d="M80 4V49M80 111V156M4 80H49M111 80H156M26 26L54 54M106 106L134 134M134 26L106 54M54 106L26 134" stroke="#254de8" stroke-width="1.5"/>
+              <circle cx="80" cy="4" r="3" fill="#d6f36a"/><circle cx="156" cy="80" r="3" fill="#d6f36a"/><circle cx="26" cy="134" r="3" fill="#d6f36a"/>
+            </svg>
+            <h3>ZEQUI AI</h3>
+            <p>A multi-tool AI experience exploring how model orchestration, graceful fallback, and thoughtful product design can make AI features more resilient.</p>
+            <div class="project-bottom"><div class="tags"><span class="tag">TypeScript</span><span class="tag">LLM orchestration</span><span class="tag">Fault tolerance</span></div><a class="arrow" href="https://github.com/nachiketnarkhede" aria-label="Explore ZEQUI AI on GitHub" target="_blank" rel="noreferrer">↗</a></div>
+          </article>
+          <article class="project narrow">
+            <div class="project-top"><span class="project-type">Embedded · Sensing</span><span>PROJECT / 002</span></div>
+            <svg class="graphic" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+              <rect x="22" y="22" width="76" height="76" rx="4" stroke="#315a32" stroke-width="1.5"/>
+              <rect x="38" y="38" width="44" height="44" stroke="#315a32" stroke-width="1.5"/>
+              <path d="M4 36H22M4 48H22M4 60H22M4 72H22M98 36H116M98 48H116M98 60H116M98 72H116M36 4V22M48 4V22M60 4V22M72 4V22M36 98V116M48 98V116M60 98V116M72 98V116" stroke="#315a32" stroke-width="1.5"/>
+              <path d="M45 60L55 70L76 47" stroke="#315a32" stroke-width="2"/>
+            </svg>
+            <h3>ESP32<br>SignalGuard</h3>
+            <p>A C++ library focused on safer ultrasonic measurements, input validation, timeout handling, and clearer sensor status reporting.</p>
+            <div class="project-bottom"><div class="tags"><span class="tag">ESP32</span><span class="tag">Arduino C++</span></div><a class="arrow" href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" aria-label="Explore ESP32 SignalGuard on GitHub" target="_blank" rel="noreferrer">↗</a></div>
+          </article>
+          <article class="project full">
+            <div class="project-top"><span class="project-type">Research notes · Systems thinking</span><span>PROJECT / 003</span></div>
+            <svg class="graphic" viewBox="0 0 140 140" fill="none" aria-hidden="true">
+              <g stroke="#65675f" stroke-width="1"><path d="M14 28H126M14 56H126M14 84H126M14 112H126"/><path d="M28 14V126M56 14V126M84 14V126M112 14V126"/></g>
+              <path d="M14 84H42L56 56H84L98 28H126" stroke="#254de8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="42" cy="84" r="4" fill="#d6f36a" stroke="#254de8"/><circle cx="84" cy="56" r="4" fill="#d6f36a" stroke="#254de8"/><circle cx="98" cy="28" r="4" fill="#d6f36a" stroke="#254de8"/>
+            </svg>
+            <h3>Engineering field notes</h3>
+            <p>Ongoing investigations into timing uncertainty, signal disturbances, hardware–software boundaries, and how systems behave when real-world conditions are imperfect.</p>
+            <div class="project-bottom"><div class="tags"><span class="tag">Measurement</span><span class="tag">Reliability</span><span class="tag">Technical writing</span></div><a class="arrow" href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" aria-label="Read engineering work on GitHub" target="_blank" rel="noreferrer">↗</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="approach">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-number">02 / Approach</div>
+          <div><h2>Curiosity is a start.<br>Evidence is the work.</h2><p class="section-sub">The aim isn't to make projects look more advanced than they are. It's to understand a problem, build something real, test its limits, and explain what I learn.</p></div>
+        </div>
+        <div class="notes-grid">
+          <article class="note"><div class="mini">01 / Understand</div><h3>Start with the system</h3><p>Define the problem and its constraints before choosing tools or writing code.</p></article>
+          <article class="note"><div class="mini">02 / Build</div><h3>Make it observable</h3><p>Prefer clear behavior, useful status information, and failure paths that can be understood.</p></article>
+          <article class="note"><div class="mini">03 / Refine</div><h3>Document the limits</h3><p>Separate what has been implemented, what has been tested, and what still needs evidence.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap about-layout">
+        <div class="section-number">03 / About</div>
+        <div>
+          <h2>Learning across<br>boundaries.</h2>
+          <div class="about-copy" style="margin-top:28px">
+            <p>I'm studying <strong>Electronics & Telecommunication Engineering</strong> at Sandip Institute of Technology & Research Centre, Nashik. My interests span embedded systems, semiconductor technology, AI-enabled software, and the mathematics that connects them.</p>
+            <div class="principles">
+              <div class="principle"><span>01</span><div>Electronics and embedded systems</div></div>
+              <div class="principle"><span>02</span><div>AI systems and orchestration</div></div>
+              <div class="principle"><span>03</span><div>Semiconductor technology</div></div>
+              <div class="principle"><span>04</span><div>Reliable software architecture</div></div>
+              <div class="principle"><span>05</span><div>Technical communication</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="wrap contact-inner">
+        <div class="section-number">04 / Say hello</div>
+        <div>
+          <div class="eyebrow">Ideas, feedback, collaboration</div>
+          <h2>Good work gets<br>better in conversation.</h2>
+          <div class="contact-bottom">
+            <p>If you're working on embedded systems, AI infrastructure, semiconductor technology, or adjacent research, I'd be glad to connect and learn from your perspective.</p>
+            <div class="hero-links">
+              <a class="pill" href="https://github.com/nachiketnarkhede" target="_blank" rel="noreferrer">GitHub ↗</a>
+              <a class="pill" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+              <!-- Replace the LinkedIn URL above with your exact profile URL before publishing. -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap"><span>© <span id="year">2026</span> Nachiket Narkhede</span><span>Made with care, kept in progress.</span><a class="backtop" href="#top">Back to top ↑</a></footer>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
