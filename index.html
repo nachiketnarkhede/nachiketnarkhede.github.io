@@ -1,273 +1,391 @@
-<!doctype html>
+from pathlib import Path
+from zipfile import ZipFile, ZIP_DEFLATED
+
+out = Path("/mnt/data/index.html")
+html = r'''<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f2ec">
-  <meta name="description" content="Nachiket Narkhede — electronics, computing, and intelligent systems. Projects, experiments, and engineering notes.">
-  <title>Nachiket Narkhede — Engineering, in progress</title>
+  <meta name="theme-color" content="#f5f3ee">
+  <meta name="description" content="Nachiket Narkhede — Electronics & Telecommunication Engineering student exploring AI systems, embedded electronics, software reliability, and independent technical investigation.">
+  <meta property="og:title" content="Nachiket Narkhede — Engineering, AI & Research">
+  <meta property="og:description" content="Projects, engineering notes, and independent technical investigations across AI systems and electronics.">
+  <meta property="og:type" content="website">
+  <title>Nachiket Narkhede — Engineering, AI & Research</title>
   <style>
     :root {
-      --paper: #f4f2ec;
-      --ink: #171916;
-      --muted: #686b63;
-      --line: #d9d8d0;
-      --blue: #254de8;
-      --blue-dark: #1737b4;
-      --lime: #d6f36a;
-      --white: #fffefa;
-      --serif: Georgia, "Times New Roman", serif;
+      --paper: #f5f3ee; --paper-2: #ebe8e0; --ink: #171916; --muted: #62665e;
+      --line: #d7d5cc; --blue: #234fe3; --blue-dark: #1738a8; --white: #fffefa;
+      --max: 1160px; --serif: Georgia, "Times New Roman", serif;
       --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
-    a { color: inherit; text-decoration: none; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.6; }
+    a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+    a:hover { color: var(--blue); }
     a:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
-    .wrap { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
-    .topbar { display:flex; justify-content:space-between; align-items:center; min-height:76px; border-bottom:1px solid var(--line); gap:24px; }
-    .wordmark { font-size:14px; font-weight:750; letter-spacing:-.04em; }
-    .wordmark span { color:var(--blue); }
-    .nav { display:flex; align-items:center; gap:24px; font-size:12px; color:var(--muted); }
-    .nav a:hover { color:var(--blue); }
-    .availability { display:flex; align-items:center; gap:8px; font:10px var(--mono); text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
-    .dot { width:7px; height:7px; background:#79a53a; border-radius:50%; box-shadow:0 0 0 3px #79a53a20; }
-    .hero { display:grid; grid-template-columns:minmax(0, 1.35fr) minmax(280px, .65fr); gap:64px; padding:78px 0 70px; align-items:center; }
-    .eyebrow { font:11px var(--mono); color:var(--blue); text-transform:uppercase; letter-spacing:.1em; }
-    h1 { font-size:clamp(58px, 8.4vw, 116px); line-height:.88; letter-spacing:-.095em; font-weight:650; margin:27px 0 27px; max-width:790px; }
-    h1 .serif { font-family:var(--serif); font-weight:400; font-style:italic; letter-spacing:-.085em; }
-    .intro { font-size:clamp(16px, 1.7vw, 20px); line-height:1.6; max-width:530px; color:#444840; letter-spacing:-.025em; }
-    .intro strong { color:var(--ink); font-weight:650; }
-    .hero-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
-    .pill { display:inline-flex; gap:10px; align-items:center; border:1px solid var(--line); border-radius:999px; padding:11px 15px; font-size:12px; transition:background .2s, color .2s, border-color .2s; }
-    .pill.primary { background:var(--blue); color:white; border-color:var(--blue); }
-    .pill:hover { border-color:var(--blue); color:var(--blue); }
-    .pill.primary:hover { background:var(--blue-dark); color:white; }
-    .portrait-panel { position:relative; max-width:370px; justify-self:end; width:100%; }
-    .portrait-frame { position:relative; aspect-ratio:4 / 5; padding:11px; background:var(--white); border:1px solid var(--line); transform:rotate(2deg); box-shadow:14px 18px 0 #1b21100b; }
-    .portrait-frame img { width:100%; height:100%; object-fit:cover; object-position:center 28%; display:block; filter:saturate(.86); }
-    .portrait-caption { display:flex; justify-content:space-between; gap:12px; margin-top:20px; font:10px var(--mono); text-transform:uppercase; letter-spacing:.07em; color:var(--muted); }
-    .orbit { position:absolute; width:94px; height:94px; border:1px solid var(--blue); border-radius:50%; right:-27px; top:-26px; display:grid; place-items:center; color:var(--blue); font:10px var(--mono); text-align:center; line-height:1.4; background:var(--paper); transform:rotate(-10deg); }
-    .ticker { overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:15px 0; }
-    .ticker-inner { display:flex; justify-content:space-between; gap:22px; flex-wrap:wrap; font:10px var(--mono); color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
-    .ticker b { color:var(--blue); font-weight:500; }
-    section { padding:84px 0; border-bottom:1px solid var(--line); }
-    .section-head { display:grid; grid-template-columns:180px 1fr; gap:35px; margin-bottom:38px; }
-    .section-number { font:11px var(--mono); color:var(--blue); text-transform:uppercase; letter-spacing:.08em; padding-top:10px; }
-    h2 { margin:0; font-size:clamp(36px, 5vw, 62px); letter-spacing:-.075em; line-height:.98; font-weight:600; }
-    .section-sub { max-width:550px; color:var(--muted); font-size:14px; line-height:1.7; margin:16px 0 0; }
-    .project-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
-    .project { position:relative; border:1px solid var(--line); background:var(--white); min-height:310px; padding:24px; display:flex; flex-direction:column; overflow:hidden; transition:transform .25s, border-color .25s; }
-    .project:hover { transform:translateY(-4px); border-color:#a5a8a0; }
-    .project.wide { grid-column:span 7; }
-    .project.narrow { grid-column:span 5; }
-    .project.full { grid-column:span 12; min-height:230px; }
-    .project-top { display:flex; justify-content:space-between; align-items:center; gap:12px; font:10px var(--mono); color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
-    .project-type { color:var(--blue); }
-    .project h3 { font-size:clamp(27px,3vw,42px); letter-spacing:-.07em; line-height:1; margin:45px 0 13px; font-weight:620; }
-    .project p { color:var(--muted); max-width:480px; font-size:13px; line-height:1.7; margin:0; }
-    .project-bottom { margin-top:auto; padding-top:26px; display:flex; justify-content:space-between; align-items:center; gap:15px; font-size:11px; }
-    .tags { display:flex; flex-wrap:wrap; gap:6px; }
-    .tag { border:1px solid var(--line); padding:5px 8px; border-radius:99px; font-size:10px; color:#55594f; }
-    .arrow { width:32px; height:32px; border-radius:50%; display:grid; place-items:center; background:var(--blue); color:white; font-size:16px; flex-shrink:0; }
-    .graphic { position:absolute; right:18px; top:70px; width:120px; height:120px; opacity:.95; pointer-events:none; }
-    .project.wide .graphic { right:35px; width:155px; height:155px; }
-    .project h3, .project p, .project-bottom { position:relative; z-index:1; }
-    .project:nth-child(1) { background:#eeedff; }
-    .project:nth-child(1) .tag { border-color:#cbc8f4; }
-    .project:nth-child(2) { background:#e9f0e4; }
-    .project:nth-child(3) { background:#f0eee7; }
-    .signal { width:100%; height:100%; }
-    .notes-grid { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line); }
-    .note { padding:24px; min-height:180px; }
-    .note + .note { border-left:1px solid var(--line); }
-    .note .mini { font:10px var(--mono); color:var(--blue); text-transform:uppercase; letter-spacing:.08em; }
-    .note h3 { margin:25px 0 9px; font-size:18px; letter-spacing:-.04em; }
-    .note p { font-size:12px; line-height:1.7; color:var(--muted); margin:0; }
-    .about-layout { display:grid; grid-template-columns:180px 1fr; gap:35px; }
-    .about-copy { display:grid; grid-template-columns:1.1fr .9fr; gap:42px; }
-    .about-copy p { margin:0; font-size:16px; line-height:1.85; color:#484c44; }
-    .about-copy p strong { color:var(--ink); }
-    .principles { border-top:1px solid var(--line); }
-    .principle { display:flex; gap:20px; padding:14px 0; border-bottom:1px solid var(--line); font-size:12px; }
-    .principle span { font:10px var(--mono); color:var(--blue); }
-    .contact { background:var(--blue); color:white; padding:70px 0; border:0; }
-    .contact .section-number, .contact .eyebrow { color:var(--lime); }
-    .contact-inner { display:grid; grid-template-columns:180px 1fr; gap:35px; }
-    .contact h2 { max-width:780px; }
-    .contact-bottom { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-top:32px; }
-    .contact-bottom p { color:#e0e6ff; max-width:400px; font-size:13px; line-height:1.7; margin:0; }
-    .contact .pill { border-color:#ffffff75; color:white; }
-    .contact .pill:hover { background:white; color:var(--blue); }
-    footer { padding:22px 0; display:flex; justify-content:space-between; gap:20px; color:var(--muted); font:10px var(--mono); text-transform:uppercase; letter-spacing:.05em; }
-    .backtop { color:var(--blue); }
-    @media (max-width:760px) {
-      .wrap { width:min(100% - 36px, 1240px); }
-      .topbar { min-height:64px; }
-      .nav { gap:14px; }
-      .nav a:nth-child(2) { display:none; }
-      .availability { display:none; }
-      .hero { grid-template-columns:1fr; gap:42px; padding:55px 0 52px; }
-      .portrait-panel { justify-self:start; width:min(72%,320px); margin-left:12px; }
-      .orbit { width:78px; height:78px; right:-20px; }
-      .section-head, .about-layout, .contact-inner { grid-template-columns:1fr; gap:16px; }
-      section { padding:60px 0; }
-      .project.wide, .project.narrow, .project.full { grid-column:span 12; }
-      .project { min-height:300px; padding:20px; }
-      .project h3 { max-width:75%; margin-top:48px; }
-      .project p { max-width:80%; }
-      .graphic { width:95px; height:95px; top:84px; right:10px; }
-      .project.wide .graphic { width:110px; height:110px; right:10px; }
-      .notes-grid { grid-template-columns:1fr; }
-      .note + .note { border-left:0; border-top:1px solid var(--line); }
-      .about-copy { grid-template-columns:1fr; gap:22px; }
-      .contact-bottom { align-items:start; flex-direction:column; }
-      footer { flex-wrap:wrap; }
+    img { max-width: 100%; display: block; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .eyebrow { margin: 0 0 14px; color: var(--blue); text-transform: uppercase; letter-spacing: .15em; font-size: .72rem; font-weight: 800; }
+    .site-header { position: sticky; top: 0; z-index: 20; background: rgba(245,243,238,.93); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font-weight: 850; letter-spacing: -.055em; text-decoration: none; font-size: 1.06rem; white-space: nowrap; }
+    .brand span { color: var(--blue); }
+    .nav-links { display: flex; align-items: center; gap: clamp(12px, 2.4vw, 30px); }
+    .nav-links a { font-size: .83rem; text-decoration: none; font-weight: 650; }
+    .nav-links .nav-cta { background: var(--ink); color: var(--paper); padding: 10px 14px; }
+    .nav-links .nav-cta:hover { background: var(--blue); }
+    .menu-toggle { display: none; border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 8px 10px; font: inherit; }
+    .hero { padding: clamp(70px, 10vw, 138px) 0 88px; border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(230px, .65fr); align-items: end; gap: clamp(32px, 7vw, 92px); }
+    h1 { margin: 0; max-width: 850px; font-size: clamp(3.3rem, 8.5vw, 7.5rem); line-height: .91; letter-spacing: -.085em; font-weight: 780; }
+    h1 em { color: var(--blue); font-family: var(--serif); font-weight: 500; letter-spacing: -.075em; }
+    .hero-copy { max-width: 580px; margin: 28px 0 0; font-size: clamp(1rem, 1.5vw, 1.2rem); color: #41453f; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 17px; border: 1px solid var(--ink); text-decoration: none; font-size: .88rem; font-weight: 750; transition: transform .18s ease, background .18s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { background: var(--blue); color: white; border-color: var(--blue); }
+    .button.primary:hover { background: var(--blue-dark); }
+    .button.secondary:hover { background: var(--white); }
+    .portrait-wrap { position: relative; max-width: 330px; justify-self: end; width: 100%; }
+    .portrait-frame { aspect-ratio: 4 / 5; background: var(--paper-2); border: 1px solid var(--line); overflow: hidden; }
+    .portrait-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+    .portrait-note { display: flex; justify-content: space-between; gap: 10px; padding-top: 12px; font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .hero-index { margin-top: 55px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+    .index-item { padding: 17px 20px 0 0; }
+    .index-item strong { display: block; font-size: .88rem; }
+    .index-item span { color: var(--muted); font-size: .8rem; }
+    section { padding: clamp(66px, 8vw, 112px) 0; border-bottom: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: minmax(170px, .55fr) minmax(0, 1.45fr); gap: 36px; margin-bottom: 46px; align-items: start; }
+    .section-no { font-size: .75rem; color: var(--muted); letter-spacing: .12em; }
+    h2 { font-size: clamp(2.3rem, 5vw, 4.7rem); line-height: .98; letter-spacing: -.075em; margin: 0; font-weight: 760; }
+    .section-intro { max-width: 670px; margin: 18px 0 0; color: var(--muted); font-size: 1rem; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+    .about-lead { font: clamp(1.5rem, 2.8vw, 2.35rem)/1.25 var(--serif); letter-spacing: -.035em; margin: 0; max-width: 600px; }
+    .about-text { color: #4f534c; margin: 0 0 16px; }
+    .interest-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; margin-top: 25px; }
+    .interest { border-top: 1px solid var(--line); padding: 15px 0; }
+    .interest strong { display: block; font-size: .91rem; margin-bottom: 4px; }
+    .interest span { display: block; color: var(--muted); font-size: .84rem; }
+    .project-list { border-top: 1px solid var(--ink); }
+    .project { display: grid; grid-template-columns: 65px minmax(0, 1fr) minmax(180px, .6fr); gap: 24px; padding: 30px 0; border-bottom: 1px solid var(--line); }
+    .project-num { color: var(--blue); font-size: .8rem; font-weight: 800; padding-top: 7px; }
+    .project h3 { margin: 0 0 10px; font-size: clamp(1.45rem, 2.8vw, 2.3rem); line-height: 1.1; letter-spacing: -.055em; }
+    .project p { margin: 0; color: var(--muted); max-width: 650px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 15px; }
+    .tag { font-size: .7rem; padding: 4px 8px; border: 1px solid var(--line); color: #555950; }
+    .project-side { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 18px; }
+    .project-side p { font-size: .84rem; }
+    .text-link { color: var(--blue); font-weight: 800; font-size: .86rem; text-decoration: none; }
+    .text-link:hover { text-decoration: underline; }
+    .research-intro { background: var(--ink); color: var(--paper); padding: clamp(26px, 5vw, 54px); margin-bottom: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 35px; align-items: end; }
+    .research-intro .eyebrow { color: #a9b9ff; }
+    .research-intro h3 { font-size: clamp(1.8rem, 3.8vw, 3.2rem); line-height: 1; letter-spacing: -.06em; margin: 0; }
+    .research-intro p { color: #d1d2cc; margin: 0; font-size: .95rem; }
+    .publication-list { border-top: 1px solid var(--ink); }
+    .publication { display: grid; grid-template-columns: 160px minmax(0, 1fr) 150px; gap: 25px; padding: 27px 0; border-bottom: 1px solid var(--line); align-items: start; }
+    .pub-meta { font-size: .74rem; color: var(--muted); }
+    .status { display: inline-block; border: 1px solid #b7b7ae; padding: 4px 7px; font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 800; margin-bottom: 11px; }
+    .publication h3 { margin: 0 0 10px; font-size: clamp(1.35rem, 2.5vw, 2rem); line-height: 1.12; letter-spacing: -.045em; }
+    .publication p { margin: 0; color: var(--muted); max-width: 760px; }
+    .pub-links { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+    .research-note { margin-top: 25px; color: var(--muted); font-size: .82rem; max-width: 850px; }
+    .notes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .note-card { border: 1px solid var(--line); padding: 24px; min-height: 210px; display: flex; flex-direction: column; align-items: flex-start; }
+    .note-card .note-kicker { font-size: .7rem; color: var(--blue); text-transform: uppercase; letter-spacing: .1em; font-weight: 800; }
+    .note-card h3 { font-size: 1.35rem; line-height: 1.12; letter-spacing: -.04em; margin: 17px 0 10px; }
+    .note-card p { font-size: .87rem; color: var(--muted); margin: 0 0 18px; }
+    .note-card .text-link { margin-top: auto; }
+    .method-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .method { padding: 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); min-height: 155px; }
+    .method span { color: var(--blue); font-size: .75rem; font-weight: 800; }
+    .method h3 { margin: 22px 0 7px; font-size: 1rem; }
+    .method p { margin: 0; color: var(--muted); font-size: .82rem; }
+    .contact { background: var(--blue); color: white; border-bottom: 0; }
+    .contact .eyebrow { color: #dce4ff; }
+    .contact h2 { max-width: 800px; }
+    .contact-bottom { margin-top: 38px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.35); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; align-items: center; }
+    .contact-bottom p { margin: 0; color: #e0e5ff; font-size: .9rem; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    .contact-links a { color: white; font-weight: 750; text-decoration: none; }
+    .contact-links a:hover { text-decoration: underline; }
+    footer { background: var(--ink); color: #e7e6df; padding: 22px 0; font-size: .76rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+    .footer-inner span:last-child { color: #aeb0a8; }
+    @media (max-width: 800px) {
+      .wrap { width: min(var(--max), calc(100% - 34px)); }
+      .hero-grid { grid-template-columns: 1fr; }
+      .portrait-wrap { justify-self: start; max-width: 240px; }
+      .section-head { grid-template-columns: 1fr; gap: 13px; }
+      .about-grid { grid-template-columns: 1fr; gap: 28px; }
+      .project { grid-template-columns: 36px minmax(0, 1fr); }
+      .project-side { grid-column: 2; flex-direction: row; flex-wrap: wrap; align-items: center; }
+      .publication { grid-template-columns: 1fr; gap: 12px; }
+      .pub-links { flex-direction: row; flex-wrap: wrap; }
+      .notes-grid { grid-template-columns: 1fr 1fr; }
+      .method-grid { grid-template-columns: 1fr 1fr; }
+      .research-intro { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .nav { min-height: 64px; }
+      .menu-toggle { display: inline-block; }
+      .nav-links { display: none; position: absolute; left: 0; right: 0; top: 64px; padding: 18px 24px 22px; background: var(--paper); border-bottom: 1px solid var(--line); flex-direction: column; align-items: flex-start; gap: 18px; }
+      .nav-links.open { display: flex; }
+      h1 { font-size: clamp(3.1rem, 17vw, 5.3rem); }
+      .hero { padding-top: 66px; }
+      .hero-index { grid-template-columns: 1fr; gap: 13px; }
+      .index-item { padding-top: 13px; }
+      .interest-list, .notes-grid, .method-grid { grid-template-columns: 1fr; }
+      .project { gap: 12px; }
+      .project-side { flex-direction: column; align-items: flex-start; }
+      .note-card { min-height: 0; }
+      .contact-bottom { align-items: flex-start; flex-direction: column; }
     }
     @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior:auto; }
-      *, *::before, *::after { transition:none !important; animation:none !important; }
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
-  <header class="wrap topbar">
-    <a class="wordmark" href="#top">NN<span>®</span> / FIELD NOTES</a>
-    <nav class="nav" aria-label="Main navigation">
-      <a href="#work">Selected work</a>
-      <a href="#approach">Approach</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact ↗</a>
-    </nav>
-    <div class="availability"><span class="dot"></span> Learning in public</div>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Nachiket Narkhede home">NACHIKET<span>.</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#research">Research</a>
+        <a href="#notes">Field notes</a>
+        <a href="#contact" class="nav-cta">Contact ↗</a>
+      </nav>
+    </div>
   </header>
 
   <main id="top">
-    <div class="wrap hero">
-      <div>
-        <div class="eyebrow">Independent builder · Electronics & computing</div>
-        <h1>Making sense<br>of <span class="serif">systems.</span></h1>
-        <p class="intro">I'm <strong>Nachiket Narkhede</strong> — an electronics and telecommunication engineering student exploring the space between hardware, software, and intelligent systems.</p>
-        <p class="intro">This is a living archive of projects, experiments, and questions worth investigating.</p>
-        <div class="hero-links">
-          <a class="pill primary" href="#work">Explore selected work <span>↘</span></a>
-          <a class="pill" href="https://github.com/nachiketnarkhede" target="_blank" rel="noreferrer">GitHub ↗</a>
-          <a class="pill" href="https://in.linkedin.com/in/nachiket-narkhede" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+    <div class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">Electronics · AI systems · Independent investigation</p>
+            <h1>Building systems.<br>Investigating <em>behaviour.</em></h1>
+            <p class="hero-copy">I’m Nachiket Narkhede, an Electronics & Telecommunication Engineering student exploring the intersection of software, AI, and physical systems — with a particular interest in reliability, timing, and what happens when systems meet real-world constraints.</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#projects">Explore projects ↘</a>
+              <a class="button secondary" href="#research">Research & publications ↗</a>
+            </div>
+          </div>
+          <div class="portrait-wrap">
+            <div class="portrait-frame">
+              <img src="assets/profile.jpg" alt="Portrait of Nachiket Narkhede" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;display:grid;place-items:center;height:100%;padding:24px;text-align:center;color:#62665e&quot;><strong>Add your portrait at assets/profile.jpg</strong></div>';">
+            </div>
+            <div class="portrait-note"><span>Independent builder</span><span>Nashik, India</span></div>
+          </div>
+        </div>
+        <div class="hero-index" aria-label="Areas of work">
+          <div class="index-item"><strong>01 / AI & software</strong><span>Orchestration, architecture, failure handling</span></div>
+          <div class="index-item"><strong>02 / Embedded systems</strong><span>Sensors, timing, measurement reliability</span></div>
+          <div class="index-item"><strong>03 / Technical writing</strong><span>Questions, methods, limitations, documentation</span></div>
         </div>
       </div>
-      <aside class="portrait-panel" aria-label="Portrait of Nachiket Narkhede">
-        <div class="orbit">HARDWARE<br>× SOFTWARE<br>× IDEAS</div>
-        <div class="portrait-frame"><img src="assets/profile.jpg" alt="Portrait of Nachiket Narkhede outdoors" fetchpriority="high"></div>
-        <div class="portrait-caption"><span>Personal archive / 2026—</span><span>India · IST</span></div>
-      </aside>
     </div>
 
-    <div class="ticker" aria-label="Areas of interest">
-      <div class="wrap ticker-inner">
-        <span><b>01</b> Embedded systems</span><span><b>02</b> AI orchestration</span><span><b>03</b> Signal integrity</span><span><b>04</b> Semiconductor technology</span><span><b>05</b> Systems design</span>
-      </div>
-    </div>
-
-    <section id="work">
+    <section id="about">
       <div class="wrap">
         <div class="section-head">
-          <div class="section-number">01 / Selected work</div>
-          <div><h2>Built, tested,<br>still evolving.</h2><p class="section-sub">A few directions I'm exploring. Each project is a work in progress — documented with an emphasis on the decisions, trade-offs, and lessons behind the result.</p></div>
+          <div class="section-no">01 — ABOUT</div>
+          <div><h2>Curiosity, made<br>into working systems.</h2><p class="section-intro">I’m interested in the engineering beneath the interface: the decisions, constraints, and failure modes that determine whether a system remains useful outside a perfect demo.</p></div>
         </div>
-        <div class="project-grid">
-          <article class="project wide">
-            <div class="project-top"><span class="project-type">AI systems · Product</span><span>PROJECT / 001</span></div>
-            <svg class="graphic signal" viewBox="0 0 160 160" fill="none" aria-hidden="true">
-              <circle cx="80" cy="80" r="58" stroke="#254de8" stroke-width="1"/>
-              <circle cx="80" cy="80" r="40" stroke="#254de8" stroke-width="1" stroke-dasharray="3 5"/>
-              <circle cx="80" cy="80" r="19" fill="#254de8"/>
-              <path d="M80 4V49M80 111V156M4 80H49M111 80H156M26 26L54 54M106 106L134 134M134 26L106 54M54 106L26 134" stroke="#254de8" stroke-width="1.5"/>
-              <circle cx="80" cy="4" r="3" fill="#d6f36a"/><circle cx="156" cy="80" r="3" fill="#d6f36a"/><circle cx="26" cy="134" r="3" fill="#d6f36a"/>
-            </svg>
-            <h3>ZEQUI AI</h3>
-            <p>A multi-tool AI experience exploring how model orchestration, graceful fallback, and thoughtful product design can make AI features more resilient.</p>
-            <div class="project-bottom"><div class="tags"><span class="tag">TypeScript</span><span class="tag">LLM orchestration</span><span class="tag">Fault tolerance</span></div><a class="arrow" href="https://github.com/nachiketnarkhede" aria-label="Explore ZEQUI AI on GitHub" target="_blank" rel="noreferrer">↗</a></div>
+        <div class="about-grid">
+          <p class="about-lead">A question is a starting point. Building, testing, documenting, and being honest about limitations is how I try to make progress.</p>
+          <div>
+            <p class="about-text">My current work spans AI-powered applications, software reliability, embedded electronics, and technical investigation. These areas may appear different, but each asks a related question: how do we design systems that behave usefully and predictably under real constraints?</p>
+            <p class="about-text">I’m pursuing a B.Tech in Electronics & Telecommunication Engineering at Sandip Institute of Technology & Research Centre (SITRC), Nashik. This portfolio is a living record of projects, learning, and investigations—not a claim that every question has already been solved.</p>
+            <div class="interest-list">
+              <div class="interest"><strong>AI orchestration</strong><span>Model routing, fallback paths, API failure handling</span></div>
+              <div class="interest"><strong>System reliability</strong><span>Validation, timeouts, state, fault containment</span></div>
+              <div class="interest"><strong>Embedded electronics</strong><span>Sensor interfaces, pulse capture, timing behaviour</span></div>
+              <div class="interest"><strong>Technical research</strong><span>Structured questions, evidence, limitations, iteration</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-no">02 — SELECTED WORK</div>
+          <div><h2>Projects, with<br>the engineering exposed.</h2><p class="section-intro">The goal is to make each project inspectable: what it does, how it is put together, and which design questions it raises.</p></div>
+        </div>
+        <div class="project-list">
+          <article class="project">
+            <div class="project-num">01</div>
+            <div>
+              <h3>ZEQUI AI</h3>
+              <p>An AI application project exploring useful interactions and multi-provider orchestration. The engineering story includes routing requests, handling provider failures, and keeping the user experience understandable when an external service is unavailable.</p>
+              <div class="tags"><span class="tag">AI application</span><span class="tag">TypeScript</span><span class="tag">Fault handling</span><span class="tag">Web engineering</span></div>
+            </div>
+            <div class="project-side">
+              <p>Explore the application and source code. Architecture details should be read alongside the implementation.</p>
+              <a class="text-link" href="https://zequiai.netlify.app" target="_blank" rel="noopener noreferrer">Open live demo ↗</a>
+              <a class="text-link" href="https://github.com/nachiketnarkhede/ZEQUI-AI-" target="_blank" rel="noopener noreferrer">View repository ↗</a>
+              <a class="text-link" href="https://github.com/nachiketnarkhede/ZEQUI-AI-RESEARCH-PAPER" target="_blank" rel="noopener noreferrer">Related research repository ↗</a>
+            </div>
           </article>
-          <article class="project narrow">
-            <div class="project-top"><span class="project-type">Embedded · Sensing</span><span>PROJECT / 002</span></div>
-            <svg class="graphic" viewBox="0 0 120 120" fill="none" aria-hidden="true">
-              <rect x="22" y="22" width="76" height="76" rx="4" stroke="#315a32" stroke-width="1.5"/>
-              <rect x="38" y="38" width="44" height="44" stroke="#315a32" stroke-width="1.5"/>
-              <path d="M4 36H22M4 48H22M4 60H22M4 72H22M98 36H116M98 48H116M98 60H116M98 72H116M36 4V22M48 4V22M60 4V22M72 4V22M36 98V116M48 98V116M60 98V116M72 98V116" stroke="#315a32" stroke-width="1.5"/>
-              <path d="M45 60L55 70L76 47" stroke="#315a32" stroke-width="2"/>
-            </svg>
-            <h3>ESP32<br>SignalGuard</h3>
-            <p>A C++ library focused on safer ultrasonic measurements, input validation, timeout handling, and clearer sensor status reporting.</p>
-            <div class="project-bottom"><div class="tags"><span class="tag">ESP32</span><span class="tag">Arduino C++</span></div><a class="arrow" href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" aria-label="Explore ESP32 SignalGuard on GitHub" target="_blank" rel="noreferrer">↗</a></div>
+          <article class="project">
+            <div class="project-num">02</div>
+            <div>
+              <h3>ESP32 SignalGuard</h3>
+              <p>An embedded-systems library focused on validating pulse measurements from an ultrasonic sensing setup. Relevant design concerns include timeout behaviour, plausible pulse-duration ranges, filtering, and making invalid readings visible rather than silently trusting them.</p>
+              <div class="tags"><span class="tag">ESP32</span><span class="tag">HC-SR04</span><span class="tag">Embedded C++</span><span class="tag">Measurement validation</span></div>
+            </div>
+            <div class="project-side">
+              <p>Explore the code and documentation. Performance claims require measured results, so implementation and experimental evidence should remain distinct.</p>
+              <a class="text-link" href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" target="_blank" rel="noopener noreferrer">View repository ↗</a>
+            </div>
           </article>
-          <article class="project full">
-            <div class="project-top"><span class="project-type">Research notes · Systems thinking</span><span>PROJECT / 003</span></div>
-            <svg class="graphic" viewBox="0 0 140 140" fill="none" aria-hidden="true">
-              <g stroke="#65675f" stroke-width="1"><path d="M14 28H126M14 56H126M14 84H126M14 112H126"/><path d="M28 14V126M56 14V126M84 14V126M112 14V126"/></g>
-              <path d="M14 84H42L56 56H84L98 28H126" stroke="#254de8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="42" cy="84" r="4" fill="#d6f36a" stroke="#254de8"/><circle cx="84" cy="56" r="4" fill="#d6f36a" stroke="#254de8"/><circle cx="98" cy="28" r="4" fill="#d6f36a" stroke="#254de8"/>
-            </svg>
-            <h3>Engineering field notes</h3>
-            <p>Ongoing investigations into timing uncertainty, signal disturbances, hardware–software boundaries, and how systems behave when real-world conditions are imperfect.</p>
-            <div class="project-bottom"><div class="tags"><span class="tag">Measurement</span><span class="tag">Reliability</span><span class="tag">Technical writing</span></div><a class="arrow" href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" aria-label="Read engineering work on GitHub" target="_blank" rel="noreferrer">↗</a></div>
+          <article class="project">
+            <div class="project-num">03</div>
+            <div>
+              <h3>SystemPulse</h3>
+              <p>A software project in my portfolio. Visit the repository for the current implementation, features, and technical details; this page deliberately avoids inventing capabilities that have not been verified here.</p>
+              <div class="tags"><span class="tag">Software project</span><span class="tag">Implementation-led</span></div>
+            </div>
+            <div class="project-side">
+              <p>The source repository is the reference for its current scope and status.</p>
+              <a class="text-link" href="https://github.com/nachiketnarkhede/SystemPulse" target="_blank" rel="noopener noreferrer">View repository ↗</a>
+            </div>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section id="research">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-no">03 — RESEARCH & PUBLICATIONS</div>
+          <div><h2>Questions worth<br>investigating carefully.</h2><p class="section-intro">A dedicated archive for research-oriented writing, technical papers, and investigations. Each entry should link to the actual document and state its status clearly.</p></div>
+        </div>
+        <div class="research-intro">
+          <div><p class="eyebrow">Research philosophy</p><h3>Show the question.<br>Show the evidence.</h3></div>
+          <p>I aim to document not only ideas, but also the approach, implementation details, limitations, and evidence behind them. A technical article, working paper, preprint, and peer-reviewed publication are different things; their labels should reflect their actual status.</p>
+        </div>
+        <div class="publication-list">
+          <article class="publication">
+            <div class="pub-meta"><span class="status">Technical investigation</span><br>Embedded systems · Sensing</div>
+            <div>
+              <h3>Signal Integrity and Timing Uncertainty in ESP32-Based Ultrasonic Sensing</h3>
+              <p><strong>A technical investigation into signal disturbances, measurement reliability, and software-based error handling.</strong> This work examines the engineering concerns involved in capturing ultrasonic sensor pulses, validating pulse duration, handling timeouts, and interpreting unreliable readings. Implementation safeguards should not be confused with experimentally proven accuracy; any quantitative conclusions need supporting measurements and a documented method.</p>
+            </div>
+            <div class="pub-links">
+              <a class="text-link" href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" target="_blank" rel="noopener noreferrer">Supporting code ↗</a>
+              <a class="text-link" href="https://github.com/nachiketnarkhede" target="_blank" rel="noopener noreferrer">Browse GitHub ↗</a>
+            </div>
+          </article>
+          <article class="publication">
+            <div class="pub-meta"><span class="status">Repository to verify</span><br>AI systems · Software reliability</div>
+            <div>
+              <h3>ZEQUI AI — Technical Research</h3>
+              <p>A research-oriented project associated with AI orchestration, provider fallback, and application continuity. The repository should be inspected to confirm the actual document, its title, completeness, and status before this entry is described as a paper or publication.</p>
+            </div>
+            <div class="pub-links">
+              <a class="text-link" href="https://github.com/nachiketnarkhede/ZEQUI-AI-RESEARCH-PAPER" target="_blank" rel="noopener noreferrer">Check repository ↗</a>
+              <a class="text-link" href="https://github.com/nachiketnarkhede/ZEQUI-AI-" target="_blank" rel="noopener noreferrer">Project source ↗</a>
+            </div>
+          </article>
+        </div>
+        <p class="research-note"><strong>Publication integrity:</strong> The links above are destinations supplied for these projects, not a claim that a paper is peer-reviewed, formally published, or experimentally validated. Before presenting a full paper, link directly to its real PDF, Markdown file, or document page. If a document is still being written, label it as a draft or working paper.</p>
+      </div>
+    </section>
+
+    <section id="notes">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-no">04 — ENGINEERING NOTES</div>
+          <div><h2>Small questions.<br>Careful observations.</h2><p class="section-intro">Short-form technical writing can capture the decisions and lessons that sit between a working prototype and a well-understood system.</p></div>
+        </div>
+        <div class="notes-grid">
+          <article class="note-card">
+            <span class="note-kicker">Embedded systems</span>
+            <h3>When a sensor reading should not be trusted</h3>
+            <p>Pulse validation, timeouts, plausible ranges, and the difference between receiving a value and receiving a valid measurement.</p>
+            <a class="text-link" href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" target="_blank" rel="noopener noreferrer">Explore implementation ↗</a>
+          </article>
+          <article class="note-card">
+            <span class="note-kicker">AI systems</span>
+            <h3>Designing a useful fallback path</h3>
+            <p>How an application can respond to provider failures without hiding errors or promising uninterrupted service.</p>
+            <a class="text-link" href="https://github.com/nachiketnarkhede/ZEQUI-AI-" target="_blank" rel="noopener noreferrer">Explore project source ↗</a>
+          </article>
+          <article class="note-card">
+            <span class="note-kicker">Engineering method</span>
+            <h3>From implementation to evidence</h3>
+            <p>Why design intent, code behaviour, test results, and measured conclusions should be documented separately.</p>
+            <a class="text-link" href="#research">Read research approach ↗</a>
+          </article>
+        </div>
+        <p class="research-note">These are topic summaries and starting points, not links to separate published essays. As full notes are written, replace the links with their dedicated article URLs.</p>
       </div>
     </section>
 
     <section id="approach">
       <div class="wrap">
         <div class="section-head">
-          <div class="section-number">02 / Approach</div>
-          <div><h2>Curiosity is a start.<br>Evidence is the work.</h2><p class="section-sub">The aim isn't to make projects look more advanced than they are. It's to understand a problem, build something real, test its limits, and explain what I learn.</p></div>
+          <div class="section-no">05 — APPROACH</div>
+          <div><h2>Make the work<br>understandable.</h2><p class="section-intro">A practical cycle for building and investigating systems without overstating what the evidence supports.</p></div>
         </div>
-        <div class="notes-grid">
-          <article class="note"><div class="mini">01 / Understand</div><h3>Start with the system</h3><p>Define the problem and its constraints before choosing tools or writing code.</p></article>
-          <article class="note"><div class="mini">02 / Build</div><h3>Make it observable</h3><p>Prefer clear behavior, useful status information, and failure paths that can be understood.</p></article>
-          <article class="note"><div class="mini">03 / Refine</div><h3>Document the limits</h3><p>Separate what has been implemented, what has been tested, and what still needs evidence.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="wrap about-layout">
-        <div class="section-number">03 / About</div>
-        <div>
-          <h2>Learning across<br>boundaries.</h2>
-          <div class="about-copy" style="margin-top:28px">
-            <p>I'm studying <strong>Electronics & Telecommunication Engineering</strong> at Sandip Institute of Technology & Research Centre, Nashik. My interests span embedded systems, semiconductor technology, AI-enabled software, and the mathematics that connects them.</p>
-            <div class="principles">
-              <div class="principle"><span>01</span><div>Electronics and embedded systems</div></div>
-              <div class="principle"><span>02</span><div>AI systems and orchestration</div></div>
-              <div class="principle"><span>03</span><div>Semiconductor technology</div></div>
-              <div class="principle"><span>04</span><div>Reliable software architecture</div></div>
-              <div class="principle"><span>05</span><div>Technical communication</div></div>
-            </div>
-          </div>
+        <div class="method-grid">
+          <div class="method"><span>01</span><h3>Define the question</h3><p>Identify the behaviour, failure mode, or constraint worth understanding.</p></div>
+          <div class="method"><span>02</span><h3>Build a testable approach</h3><p>Make assumptions explicit and create a small implementation or experiment.</p></div>
+          <div class="method"><span>03</span><h3>Observe and evaluate</h3><p>Separate expected behaviour from what tests or measurements actually show.</p></div>
+          <div class="method"><span>04</span><h3>Document limitations</h3><p>Explain what remains unknown and what evidence would improve confidence.</p></div>
         </div>
       </div>
     </section>
 
     <section class="contact" id="contact">
-      <div class="wrap contact-inner">
-        <div class="section-number">04 / Say hello</div>
-        <div>
-          <div class="eyebrow">Ideas, feedback, collaboration</div>
-          <h2>Good work gets<br>better in conversation.</h2>
-          <div class="contact-bottom">
-            <p>If you're working on embedded systems, AI infrastructure, semiconductor technology, or adjacent research, I'd be glad to connect and learn from your perspective.</p>
-            <div class="hero-links">
-              <a class="pill" href="https://github.com/nachiketnarkhede" target="_blank" rel="noreferrer">GitHub ↗</a>
-              <a class="pill" href="https://in.linkedin.com/in/nachiket-narkhede" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-             
-            </div>
+      <div class="wrap">
+        <p class="eyebrow">06 — CONTACT & LINKS</p>
+        <h2>Interested in systems that work beyond the happy path.</h2>
+        <div class="contact-bottom">
+          <p>Explore the code, follow the work, or connect professionally.</p>
+          <div class="contact-links">
+            <a href="https://github.com/nachiketnarkhede" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a href="https://in.linkedin.com/in/nachiket-narkhede" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            <a href="https://nachiketnarkhede.github.io/" target="_blank" rel="noopener noreferrer">Website ↗</a>
           </div>
         </div>
       </div>
     </section>
   </main>
-  <footer class="wrap"><span>© <span id="year">2026</span> Nachiket Narkhede</span><span>Made with care, kept in progress.</span><a class="backtop" href="#top">Back to top ↑</a></footer>
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© <span id="year"></span> Nachiket Narkhede</span>
+      <span>Built around curiosity, implementation, and evidence.</span>
+    </div>
+  </footer>
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
+'''
+out.write_text(html, encoding="utf-8")
+print(f"Created {out} ({out.stat().st_size:,} bytes).")
+
