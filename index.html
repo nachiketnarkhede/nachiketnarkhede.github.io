@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4f2ec">
-  <meta name="description" content="Nachiket Narkhede — Electronics, AI, embedded systems, semiconductor technology, and independent research.">
+  <meta name="description" content="Nachiket Narkhede — Electronics, AI, embedded systems, semiconductor technology, RISC-V, and independent research.">
   <title>Nachiket Narkhede — Engineering, AI & Research</title>
 
   <style>
@@ -25,7 +24,11 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 25px; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 25px;
+    }
 
     body {
       margin: 0;
@@ -36,8 +39,16 @@
     }
 
     a { color: inherit; text-decoration: none; }
-    a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
-    .wrap { width: min(1240px, calc(100% - 64px)); margin: 0 auto; }
+
+    a:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 4px;
+    }
+
+    .wrap {
+      width: min(1240px, calc(100% - 64px));
+      margin: 0 auto;
+    }
 
     .topbar {
       display: flex;
@@ -48,7 +59,12 @@
       gap: 24px;
     }
 
-    .wordmark { font-size: 14px; font-weight: 750; letter-spacing: -.04em; }
+    .wordmark {
+      font-size: 14px;
+      font-weight: 750;
+      letter-spacing: -.04em;
+    }
+
     .wordmark span { color: var(--blue); }
 
     .nav {
@@ -60,7 +76,9 @@
       color: var(--muted);
     }
 
-    .nav a:hover, .text-link:hover { color: var(--blue); }
+    .nav a:hover,
+    .text-link:hover { color: var(--blue); }
+
     .availability {
       display: flex;
       align-items: center;
@@ -117,7 +135,10 @@
       letter-spacing: -.025em;
     }
 
-    .intro strong { color: var(--ink); font-weight: 650; }
+    .intro strong {
+      color: var(--ink);
+      font-weight: 650;
+    }
 
     .hero-links {
       display: flex;
@@ -138,9 +159,21 @@
       transition: background .2s, color .2s, border-color .2s;
     }
 
-    .pill.primary { background: var(--blue); color: white; border-color: var(--blue); }
-    .pill:hover { border-color: var(--blue); color: var(--blue); }
-    .pill.primary:hover { background: var(--blue-dark); color: white; }
+    .pill.primary {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .pill:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .pill.primary:hover {
+      background: var(--blue-dark);
+      color: white;
+    }
 
     .portrait-panel {
       position: relative;
@@ -216,9 +249,15 @@
       letter-spacing: .08em;
     }
 
-    .ticker b { color: var(--blue); font-weight: 500; }
+    .ticker b {
+      color: var(--blue);
+      font-weight: 500;
+    }
 
-    section { padding: 84px 0; border-bottom: 1px solid var(--line); }
+    section {
+      padding: 84px 0;
+      border-bottom: 1px solid var(--line);
+    }
 
     .section-head {
       display: grid;
@@ -251,6 +290,8 @@
       margin: 16px 0 0;
     }
 
+    /* PROJECTS */
+
     .project-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -269,10 +310,17 @@
       transition: transform .25s, border-color .25s;
     }
 
-    .project:hover { transform: translateY(-4px); border-color: #a5a8a0; }
+    .project:hover {
+      transform: translateY(-4px);
+      border-color: #a5a8a0;
+    }
+
     .project.wide { grid-column: span 7; }
     .project.narrow { grid-column: span 5; }
-    .project.full { grid-column: span 12; min-height: 230px; }
+    .project.full {
+      grid-column: span 12;
+      min-height: 230px;
+    }
 
     .project-top {
       display: flex;
@@ -314,7 +362,11 @@
       flex-wrap: wrap;
     }
 
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
 
     .tag {
       border: 1px solid var(--line);
@@ -346,59 +398,28 @@
       pointer-events: none;
     }
 
-    .project.wide .graphic { right: 35px; width: 155px; height: 155px; }
-    .project h3, .project p, .project-bottom { position: relative; z-index: 1; }
+    .project.wide .graphic {
+      right: 35px;
+      width: 155px;
+      height: 155px;
+    }
+
+    .project h3,
+    .project p,
+    .project-bottom {
+      position: relative;
+      z-index: 1;
+    }
+
     .project:nth-child(1) { background: #eeedff; }
     .project:nth-child(2) { background: #e9f0e4; }
     .project:nth-child(3) { background: #f0eee7; }
 
-    .notes-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 1px solid var(--line);
+    /* RESEARCH */
+
+    .research-list {
+      border-top: 1px solid var(--ink);
     }
-
-    .note { padding: 24px; min-height: 180px; }
-    .note + .note { border-left: 1px solid var(--line); }
-
-    .note .mini {
-      font: 10px var(--mono);
-      color: var(--blue);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    .note h3 { margin: 25px 0 9px; font-size: 18px; letter-spacing: -.04em; }
-    .note p { font-size: 12px; line-height: 1.8; color: var(--muted); margin: 0; }
-
-    .about-layout {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 35px;
-    }
-
-    .about-copy {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 42px;
-    }
-
-    .about-copy p { margin: 0; font-size: 16px; line-height: 1.9; color: #484c44; }
-    .about-copy p strong { color: var(--ink); }
-    .principles { border-top: 1px solid var(--line); }
-
-    .principle {
-      display: flex;
-      gap: 20px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 12px;
-    }
-
-    .principle span { font: 10px var(--mono); color: var(--blue); }
-
-    /* Research papers */
-    .research-list { border-top: 1px solid var(--ink); }
 
     .publication {
       display: grid;
@@ -484,7 +505,8 @@
       max-width: 850px;
     }
 
-    /* Certificates */
+    /* CERTIFICATES */
+
     .credential-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -498,6 +520,12 @@
       min-height: 235px;
       display: flex;
       flex-direction: column;
+      transition: transform .25s, border-color .25s;
+    }
+
+    .credential-card:hover {
+      transform: translateY(-3px);
+      border-color: #a5a8a0;
     }
 
     .credential-top {
@@ -525,10 +553,17 @@
       margin: 0 0 20px;
     }
 
-    .card-link { color: var(--blue); font-size: 11px; font-weight: 700; margin-top: auto; }
+    .card-link {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: auto;
+    }
+
     .card-link:hover { color: var(--blue-dark); }
 
-    /* Articles */
+    /* ARTICLES */
+
     .article-panel {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -555,13 +590,112 @@
       max-width: 720px;
     }
 
-    .article-panel .pill { white-space: nowrap; background: var(--blue); color: #fff; border-color: var(--blue); }
-    .article-panel .pill:hover { background: var(--blue-dark); }
-    .section-kicker { color: var(--blue); font: 10px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+    .article-panel .pill {
+      white-space: nowrap;
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
 
-    /* Contact and footer */
-    .contact { background: var(--blue); color: white; padding: 70px 0; border: 0; }
-    .contact .section-number, .contact .eyebrow { color: var(--lime); }
+    .article-panel .pill:hover {
+      background: var(--blue-dark);
+    }
+
+    .section-kicker {
+      color: var(--blue);
+      font: 10px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* APPROACH */
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line);
+    }
+
+    .note {
+      padding: 24px;
+      min-height: 180px;
+    }
+
+    .note + .note {
+      border-left: 1px solid var(--line);
+    }
+
+    .note .mini {
+      font: 10px var(--mono);
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .note h3 {
+      margin: 25px 0 9px;
+      font-size: 18px;
+      letter-spacing: -.04em;
+    }
+
+    .note p {
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ABOUT */
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 35px;
+    }
+
+    .about-copy {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 42px;
+    }
+
+    .about-copy p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.9;
+      color: #484c44;
+    }
+
+    .about-copy p strong { color: var(--ink); }
+
+    .principles { border-top: 1px solid var(--line); }
+
+    .principle {
+      display: flex;
+      gap: 20px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+    }
+
+    .principle span {
+      font: 10px var(--mono);
+      color: var(--blue);
+    }
+
+    /* CONTACT */
+
+    .contact {
+      background: var(--blue);
+      color: white;
+      padding: 70px 0;
+      border: 0;
+    }
+
+    .contact .section-number,
+    .contact .eyebrow {
+      color: var(--lime);
+    }
 
     .contact-inner {
       display: grid;
@@ -587,8 +721,55 @@
       margin: 0;
     }
 
-    .contact .pill { border-color: #ffffff75; color: white; }
-    .contact .pill:hover { background: white; color: var(--blue); }
+    .contact .pill {
+      border-color: #ffffff75;
+      color: white;
+    }
+
+    .contact .pill:hover {
+      background: white;
+      color: var(--blue);
+    }
+
+    /* MORE PROJECTS LOADING */
+
+    .projects-loading {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 28px 16px;
+      color: #777;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      border-top: 1px solid rgba(0, 0, 0, 0.10);
+    }
+
+    .loading-indicator {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #254de8;
+      animation: projectPulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-dots {
+      color: #254de8;
+      animation: dotsFade 1.5s ease-in-out infinite;
+    }
+
+    @keyframes projectPulse {
+      0%, 100% { opacity: 0.35; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    @keyframes dotsFade {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 1; }
+    }
+
+    /* FOOTER */
 
     footer {
       padding: 22px 0;
@@ -603,91 +784,159 @@
 
     .backtop { color: var(--blue); }
 
+    /* TABLET */
+
     @media (max-width: 900px) {
       .availability { display: none; }
-      .publication { grid-template-columns: 130px minmax(0, 1fr); }
-      .pub-links { grid-column: 2; flex-direction: row; flex-wrap: wrap; }
+
+      .publication {
+        grid-template-columns: 130px minmax(0, 1fr);
+      }
+
+      .pub-links {
+        grid-column: 2;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
       .nav { gap: 12px; }
     }
 
-/* MORE PROJECTS LOADING */
-.projects-loading {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 28px 16px;
-  color: #777;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  border-top: 1px solid rgba(0, 0, 0, 0.10);
-}
-
-.loading-indicator {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #254de8;
-  animation: projectPulse 1.5s ease-in-out infinite;
-}
-
-.loading-dots {
-  color: #254de8;
-  animation: dotsFade 1.5s ease-in-out infinite;
-}
-
-@keyframes projectPulse {
-  0%, 100% { opacity: 0.35; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1.15); }
-}
-
-@keyframes dotsFade {
-  0%, 100% { opacity: 0.25; }
-  50% { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .loading-indicator,
-  .loading-dots {
-    animation: none;
-  }
-}
+    /* MOBILE */
 
     @media (max-width: 760px) {
-      .wrap { width: min(100% - 36px, 1240px); }
-      .topbar { min-height: 70px; align-items: flex-start; padding: 18px 0; }
+      .wrap {
+        width: min(100% - 36px, 1240px);
+      }
+
+      .topbar {
+        min-height: 70px;
+        align-items: flex-start;
+        padding: 18px 0;
+      }
+
       .wordmark { padding-top: 5px; }
-      .nav { gap: 10px 13px; justify-content: flex-end; max-width: 70%; font-size: 10px; }
-      .hero { grid-template-columns: 1fr; gap: 42px; padding: 55px 0 52px; }
-      .portrait-panel { justify-self: start; width: min(72%, 320px); margin-left: 12px; }
-      .orbit { width: 78px; height: 78px; right: -20px; }
-      .section-head, .about-layout, .contact-inner { grid-template-columns: 1fr; gap: 16px; }
+
+      .nav {
+        gap: 10px 13px;
+        justify-content: flex-end;
+        max-width: 70%;
+        font-size: 10px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 42px;
+        padding: 55px 0 52px;
+      }
+
+      .portrait-panel {
+        justify-self: start;
+        width: min(72%, 320px);
+        margin-left: 12px;
+      }
+
+      .orbit {
+        width: 78px;
+        height: 78px;
+        right: -20px;
+      }
+
+      .section-head,
+      .about-layout,
+      .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
       section { padding: 60px 0; }
-      .project.wide, .project.narrow, .project.full { grid-column: span 12; }
-      .project { min-height: 300px; padding: 20px; }
-      .project h3 { max-width: 75%; margin-top: 48px; }
+
+      .project.wide,
+      .project.narrow,
+      .project.full {
+        grid-column: span 12;
+      }
+
+      .project {
+        min-height: 300px;
+        padding: 20px;
+      }
+
+      .project h3 {
+        max-width: 75%;
+        margin-top: 48px;
+      }
+
       .project p { max-width: 85%; }
-      .graphic { width: 95px; height: 95px; top: 84px; right: 10px; }
-      .project.wide .graphic { width: 110px; height: 110px; right: 10px; }
-      .notes-grid, .credential-grid { grid-template-columns: 1fr; }
-      .note + .note { border-left: 0; border-top: 1px solid var(--line); }
-      .about-copy { grid-template-columns: 1fr; gap: 22px; }
-      .publication { grid-template-columns: 1fr; gap: 12px; }
-      .pub-links { grid-column: auto; flex-direction: row; flex-wrap: wrap; }
-      .research-banner, .article-panel { grid-template-columns: 1fr; }
-      .contact-bottom { align-items: flex-start; flex-direction: column; }
+
+      .graphic {
+        width: 95px;
+        height: 95px;
+        top: 84px;
+        right: 10px;
+      }
+
+      .project.wide .graphic {
+        width: 110px;
+        height: 110px;
+        right: 10px;
+      }
+
+      .notes-grid,
+      .credential-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .note + .note {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .about-copy {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .publication {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .pub-links {
+        grid-column: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .research-banner,
+      .article-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
       footer { flex-wrap: wrap; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *, *::before, *::after { transition: none !important; animation: none !important; }
+
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        animation: none !important;
+      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- HEADER -->
   <header class="wrap topbar">
     <a class="wordmark" href="#top">NN<span>®</span> / FIELD NOTES</a>
 
@@ -700,15 +949,23 @@
       <a href="#contact">Contact ↗</a>
     </nav>
 
-    <div class="availability"><span class="dot"></span> Learning in public</div>
+    <div class="availability">
+      <span class="dot"></span>
+      Learning in public
+    </div>
   </header>
 
   <main id="top">
+
     <!-- HERO -->
     <div class="wrap hero">
       <div>
         <div class="eyebrow">Independent builder · Electronics & computing</div>
-        <h1>Making sense<br>of <span class="serif">systems.</span></h1>
+
+        <h1>
+          Making sense<br>
+          of <span class="serif">systems.</span>
+        </h1>
 
         <p class="intro">
           I'm <strong>Nachiket Narkhede</strong> — an Electronics and
@@ -730,9 +987,15 @@
 
       <aside class="portrait-panel" aria-label="Portrait">
         <div class="orbit">HARDWARE<br>× SOFTWARE<br>× IDEAS</div>
+
         <div class="portrait-frame">
-          <img src="assets/profile.jpg" alt="Portrait of Nachiket Narkhede" fetchpriority="high">
+          <img
+            src="assets/profile.jpg"
+            alt="Portrait of Nachiket Narkhede"
+            fetchpriority="high"
+          >
         </div>
+
         <div class="portrait-caption">
           <span>Personal archive / 2026—</span>
           <span>India · IST</span>
@@ -740,7 +1003,7 @@
       </aside>
     </div>
 
-    <!-- INTERESTS -->
+    <!-- INTERESTS TICKER -->
     <div class="ticker">
       <div class="wrap ticker-inner">
         <span><b>01</b> Embedded systems</span>
@@ -754,10 +1017,13 @@
     <!-- SELECTED WORK -->
     <section id="work">
       <div class="wrap">
+
         <div class="section-head">
           <div class="section-number">01 / Selected work</div>
+
           <div>
             <h2>Built, tested,<br>still evolving.</h2>
+
             <p class="section-sub">
               Projects exploring AI software, embedded sensing, and system
               behaviour. Each project is documented with attention to
@@ -767,6 +1033,8 @@
         </div>
 
         <div class="project-grid">
+
+          <!-- ZEQUI AI -->
           <article class="project wide">
             <div class="project-top">
               <span class="project-type">AI systems · Product</span>
@@ -784,6 +1052,7 @@
             </svg>
 
             <h3>ZEQUI AI</h3>
+
             <p>
               A multi-tool AI experience exploring model orchestration,
               provider fallback, and product design for more resilient
@@ -796,6 +1065,7 @@
                 <span class="tag">LLM orchestration</span>
                 <span class="tag">Fault tolerance</span>
               </div>
+
               <div class="hero-links">
                 <a class="pill" href="https://zequiai.netlify.app" target="_blank" rel="noopener noreferrer">Live demo ↗</a>
                 <a class="pill" href="https://github.com/nachiketnarkhede/ZEQUI-AI-" target="_blank" rel="noopener noreferrer">Source code ↗</a>
@@ -803,6 +1073,7 @@
             </div>
           </article>
 
+          <!-- ESP32 SIGNALGUARD -->
           <article class="project narrow">
             <div class="project-top">
               <span class="project-type">Embedded · Sensing</span>
@@ -817,6 +1088,7 @@
             </svg>
 
             <h3>ESP32<br>SignalGuard</h3>
+
             <p>
               A C++ library focused on ultrasonic sensor input validation,
               timeout handling, pulse-duration checks, and clearer
@@ -828,21 +1100,72 @@
                 <span class="tag">ESP32</span>
                 <span class="tag">Arduino C++</span>
               </div>
-              <a class="arrow" href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" aria-label="ESP32 SignalGuard repository" target="_blank" rel="noopener noreferrer">↗</a>
+
+              <a
+                class="arrow"
+                href="https://github.com/nachiketnarkhede/ESP32-SignalGuard"
+                aria-label="ESP32 SignalGuard repository"
+                target="_blank"
+                rel="noopener noreferrer"
+              >↗</a>
             </div>
           </article>
 
-          
-<!-- UPCOMING PROJECTS -->
-<div
-  class="projects-loading"
-  role="status"
-  aria-label="More projects and experiments are in development"
->
-  <span class="loading-indicator" aria-hidden="true"></span>
-  <span>More projects and experiments in development</span>
-  <span class="loading-dots" aria-hidden="true">...</span>
-</div>
+          <!-- EDGEMIND -->
+          <article class="project full">
+            <div class="project-top">
+              <span class="project-type">Edge AI · RISC-V · Machine learning</span>
+              <span>PROJECT / 003</span>
+            </div>
+
+            <svg class="graphic" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+              <rect x="20" y="20" width="80" height="80" rx="5" stroke="#254de8" stroke-width="1.5"/>
+              <rect x="36" y="36" width="48" height="48" rx="3" stroke="#254de8" stroke-width="1.5"/>
+              <path d="M45 60H75M60 45V75M4 36H20M4 60H20M4 84H20M100 36H116M100 60H116M100 84H116M36 4V20M60 4V20M84 4V20M36 100V116M60 100V116M84 100V116" stroke="#254de8" stroke-width="1.5"/>
+              <circle cx="60" cy="60" r="8" fill="#254de8"/>
+            </svg>
+
+            <h3>EdgeMind — RISC-V-Based Edge Classification System</h3>
+
+            <p>
+              An edge-classification experiment combining a Python
+              machine-learning workflow with a translated RISC-V RV32I
+              implementation. A Decision Tree model was trained on generated
+              sensor data, and its decision logic was translated into
+              assembly and checked using the Venus simulator. A separate
+              comparison evaluated agreement between the Python and
+              RISC-V implementations across 10,000 generated inputs.
+            </p>
+
+            <div class="project-bottom">
+              <div class="tags">
+                <span class="tag">Python</span>
+                <span class="tag">scikit-learn</span>
+                <span class="tag">RISC-V RV32I</span>
+                <span class="tag">Assembly</span>
+                <span class="tag">Venus simulator</span>
+              </div>
+
+              <a
+                class="arrow"
+                href="https://github.com/nachiketnarkhede/EdgeMind"
+                aria-label="EdgeMind repository"
+                target="_blank"
+                rel="noopener noreferrer"
+              >↗</a>
+            </div>
+          </article>
+
+          <!-- MORE PROJECTS -->
+          <div
+            class="projects-loading"
+            role="status"
+            aria-label="More projects and experiments are in development"
+          >
+            <span class="loading-indicator" aria-hidden="true"></span>
+            <span>More projects and experiments in development</span>
+            <span class="loading-dots" aria-hidden="true">...</span>
+          </div>
 
         </div>
       </div>
@@ -851,10 +1174,13 @@
     <!-- RESEARCH PAPERS -->
     <section id="research">
       <div class="wrap">
+
         <div class="section-head">
           <div class="section-number">02 / Research papers</div>
+
           <div>
             <h2>Questions worth<br>investigating carefully.</h2>
+
             <p class="section-sub">
               A dedicated archive for independent research-oriented writing
               and technical investigations. Each entry should distinguish
@@ -866,9 +1192,13 @@
 
         <div class="research-banner">
           <div>
-            <div class="eyebrow" style="color:var(--lime);margin-bottom:16px">A working principle</div>
+            <div class="eyebrow" style="color:var(--lime);margin-bottom:16px">
+              A working principle
+            </div>
+
             <h3>Show the question.<br>Show the evidence.</h3>
           </div>
+
           <p>
             My aim is to document not only what I build, but also the
             assumptions, methods, limitations, and unanswered questions
@@ -879,13 +1209,17 @@
         </div>
 
         <div class="research-list">
+
           <article class="publication">
             <div class="pub-meta">
               <span class="status">Independent research paper</span><br>
-              AI systems<br>Software reliability
+              AI systems<br>
+              Software reliability
             </div>
+
             <div>
               <h3>ZEQUI AI — Research Paper</h3>
+
               <p>
                 An independent research-oriented document connected to
                 ZEQUI AI and the design of AI-enabled software systems.
@@ -893,6 +1227,7 @@
                 current status.
               </p>
             </div>
+
             <div class="pub-links">
               <a href="https://github.com/nachiketnarkhede/ZEQUI-AI-RESEARCH-PAPER" target="_blank" rel="noopener noreferrer">Open research repository ↗</a>
               <a href="https://github.com/nachiketnarkhede/ZEQUI-AI-" target="_blank" rel="noopener noreferrer">Project source ↗</a>
@@ -902,16 +1237,20 @@
           <article class="publication">
             <div class="pub-meta">
               <span class="status">Independent research paper</span><br>
-              Systems<br>Behavioral analysis
+              Systems<br>
+              Behavioral analysis
             </div>
+
             <div>
               <h3>SystemPulse — Local-First System Intelligence</h3>
+
               <p>
                 An independent research paper focused on local-first system
                 intelligence and behavioral analysis. The linked repository
                 contains the paper and its current development status.
               </p>
             </div>
+
             <div class="pub-links">
               <a href="https://github.com/nachiketnarkhede/SystemPulse-Independent-Research-Paper-Local-First-System-Intelligence-Behavioral-Analysis" target="_blank" rel="noopener noreferrer">Open research paper ↗</a>
               <a href="https://github.com/nachiketnarkhede/SystemPulse" target="_blank" rel="noopener noreferrer">SystemPulse project ↗</a>
@@ -921,10 +1260,13 @@
           <article class="publication">
             <div class="pub-meta">
               <span class="status">Technical investigation</span><br>
-              Embedded systems<br>Sensing · Timing
+              Embedded systems<br>
+              Sensing · Timing
             </div>
+
             <div>
               <h3>Signal Integrity and Timing Uncertainty in ESP32-Based Ultrasonic Sensing</h3>
+
               <p>
                 A technical investigation into signal disturbances,
                 measurement reliability, and software-based error handling.
@@ -935,10 +1277,12 @@
                 measured results.
               </p>
             </div>
+
             <div class="pub-links">
               <a href="https://github.com/nachiketnarkhede/ESP32-SignalGuard" target="_blank" rel="noopener noreferrer">Supporting code ↗</a>
             </div>
           </article>
+
         </div>
 
         <p class="research-note">
@@ -947,122 +1291,254 @@
           They do not imply peer review or formal publication. The linked
           documents should identify their methods, limitations, and evidence.
         </p>
+
       </div>
     </section>
 
+    <!-- CERTIFICATES -->
+    <section id="certificates">
+      <div class="wrap">
 
-<!-- CERTIFICATES -->
-<section id="certificates">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-number">03 / Certificates</div>
-      <div>
-        <h2>Learning, made<br>visible.</h2>
-        <p class="section-sub">
-          Selected credentials spanning semiconductor technology,
-          Edge AI, intelligent telecommunications, and broader
-          awareness of India's development priorities.
+        <div class="section-head">
+          <div class="section-number">03 / Certificates</div>
+
+          <div>
+            <h2>Learning, made<br>visible.</h2>
+
+            <p class="section-sub">
+              Selected credentials spanning semiconductor technology,
+              digital hardware, Edge AI, machine learning, intelligent
+              telecommunications, and software automation.
+            </p>
+          </div>
+        </div>
+
+        <div class="credential-grid">
+
+          <!-- FUTURESKILLS PRIME — AI AT THE EDGE -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>Edge AI · Embedded systems</span>
+              <span>Oct 2026</span>
+            </div>
+
+            <h3>AI at the Edge</h3>
+
+            <p>
+              Issued by FutureSkills Prime. Explores the intersection of
+              artificial intelligence and edge computing.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/1911688067/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
+              target="_blank"
+              rel="noopener noreferrer"
+            >View certificate ↗</a>
+          </article>
+
+          <!-- FUTURESKILLS PRIME — LARGE TELECOM MODELS -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>Telecom AI · Language models</span>
+              <span>Oct 2026</span>
+            </div>
+
+            <h3>What Are Large Telecom Models?</h3>
+
+            <p>
+              Issued by FutureSkills Prime. An introduction to Large Telecom
+              Models and their role in AI-driven telecommunications.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/1920584857/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
+              target="_blank"
+              rel="noopener noreferrer"
+            >View certificate ↗</a>
+          </article>
+
+          <!-- INDIA SEMICONDUCTOR MISSION -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>Semiconductor technology</span>
+              <span>Oct 2026</span>
+            </div>
+
+            <h3>Introduction to Semiconductors</h3>
+
+            <p>
+              Issued through the India Semiconductor Mission initiative.
+              Covers foundational semiconductor concepts and their
+              significance in the electronics industry.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/1595742901/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
+              target="_blank"
+              rel="noopener noreferrer"
+            >View certificate ↗</a>
+          </article>
+
+          <!-- MAVEN SILICON — RISC-V -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>Computer architecture · RISC-V</span>
+              <span>Oct 2026</span>
+            </div>
+
+            <h3>RISC-V Processor – RV32I Base ISA</h3>
+
+            <p>
+              Completed through Maven Silicon. Focuses on the RV32I base
+              instruction set and RISC-V processor architecture.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://elearn.maven-silicon.com/verify/MS48587"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Verify certificate ↗</a>
+          </article>
+
+          <!-- MATHWORKS -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>Machine learning · MATLAB</span>
+              <span>Oct 2026</span>
+            </div>
+
+            <h3>Machine Learning Onramp</h3>
+
+            <p>
+              Completed through MathWorks. Covers machine-learning
+              workflows, data preparation, classification, model training,
+              and evaluation.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://matlabacademy.mathworks.com/progress/share/certificate.html?id=ecb6eb76-ad0d-4030-b3e0-1f06b898dcb8&"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Verify certificate ↗</a>
+          </article>
+
+          <!-- IBM -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>Automation · IBM RPA</span>
+              <span>2026</span>
+            </div>
+
+            <h3>Surface Automation with IBM RPA</h3>
+
+            <p>
+              Issued through IBM learning resources. Explores surface-based
+              automation and visual recognition for software interactions.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/212219198/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
+              target="_blank"
+              rel="noopener noreferrer"
+            >View certificate ↗</a>
+          </article>
+
+          <!-- CISCO -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>Artificial intelligence</span>
+              <span>2026</span>
+            </div>
+
+            <h3>Introduction to Modern AI</h3>
+
+            <p>
+              Issued by Cisco. Covers concepts and applications associated
+              with modern artificial intelligence.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/198477211/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
+              target="_blank"
+              rel="noopener noreferrer"
+            >View certificate ↗</a>
+          </article>
+
+          <!-- VIKSIT BHARAT -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>National awareness · Participation</span>
+              <span>Sep 2026</span>
+            </div>
+
+            <h3>Viksit Bharat Young Leaders Dialogue 2027</h3>
+
+            <p>
+              Online quiz participation certificate issued by the Ministry
+              of Youth Affairs &amp; Sports, Government of India. Reflects
+              participation in a learning activity focused on India's
+              development journey and national priorities.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/1595284385/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
+              target="_blank"
+              rel="noopener noreferrer"
+            >View certificate ↗</a>
+          </article>
+
+          <!-- NIELIT FPGA -->
+          <article class="credential-card">
+            <div class="credential-top">
+              <span>Digital design · FPGA</span>
+              <span>2026</span>
+            </div>
+
+            <h3>Introduction to FPGA Prototyping using Verilog HDL</h3>
+
+            <p>
+              Completed through NIELIT Virtual Academy. Covers FPGA
+              prototyping and digital hardware description using
+              Verilog HDL.
+            </p>
+
+            <a
+              class="card-link"
+              href="https://nva.nielit.gov.in/courses.php"
+              target="_blank"
+              rel="noopener noreferrer"
+            >NIELIT course information ↗</a>
+          </article>
+
+        </div>
+
+        <p class="research-note">
+          Certificate links lead to the individual records supplied where
+          available. The NIELIT link currently leads to its course catalogue,
+          rather than an individual certificate verification page.
         </p>
+
       </div>
-    </div>
-
-    <div class="credential-grid">
-
-      <!-- 01: AI at the Edge -->
-      <article class="credential-card">
-        <div class="credential-top">
-          <span>Edge AI · Embedded systems</span>
-          <span>Oct 2026</span>
-        </div>
-        <h3>AI at the Edge</h3>
-        <p>
-          Issued by FutureSkills Prime through the MeitY and nasscom
-          initiative. Covers the intersection of Edge AI and embedded
-          systems, connecting intelligent computation with electronics.
-        </p>
-        <a class="card-link"
-           href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/1911688067/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
-           target="_blank" rel="noopener noreferrer">
-          View certificate ↗
-        </a>
-      </article>
-
-      <!-- 02: Large Telecom Models -->
-      <article class="credential-card">
-        <div class="credential-top">
-          <span>Telecom AI · Language models</span>
-          <span>Oct 2026</span>
-        </div>
-        <h3>What Are Large Telecom Models?</h3>
-        <p>
-          Issued by FutureSkills Prime. An introduction to Large Telecom
-          Models (LTMs) and the application of artificial intelligence
-          in telecommunications.
-        </p>
-        <a class="card-link"
-           href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/1920584857/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
-           target="_blank" rel="noopener noreferrer">
-          View certificate ↗
-        </a>
-      </article>
-
-      <!-- 03: Introduction to Semiconductors -->
-      <article class="credential-card">
-        <div class="credential-top">
-          <span>Semiconductor technology</span>
-          <span>Oct 2026</span>
-        </div>
-        <h3>Introduction to Semiconductors</h3>
-        <p>
-          Issued through the India Semiconductor Mission initiative.
-          A micro-learning module introducing foundational semiconductor
-          concepts and their role in the electronics industry.
-        </p>
-        <a class="card-link"
-           href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/1595742901/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
-           target="_blank" rel="noopener noreferrer">
-          View certificate ↗
-        </a>
-      </article>
-
-      <!-- 04: Viksit Bharat Young Leaders Dialogue -->
-      <article class="credential-card">
-        <div class="credential-top">
-          <span>National awareness · Participation</span>
-          <span>Sep 2026</span>
-        </div>
-        <h3>Viksit Bharat Young Leaders Dialogue 2027</h3>
-        <p>
-          Online quiz participation certificate issued by the Ministry
-          of Youth Affairs &amp; Sports, Government of India. Reflects
-          participation in a learning activity focused on India's
-          development journey and national priorities.
-        </p>
-        <a class="card-link"
-           href="https://www.linkedin.com/in/nachiket-narkhede/overlay/Certifications/1595284385/treasury/?profileId=ACoAAG5g4XcBeyAC8nGRDXmWPLt2Jh-YoGPdGAU"
-           target="_blank" rel="noopener noreferrer">
-          View certificate ↗
-        </a>
-      </article>
-
-    </div>
-
-    <p class="research-note">
-      Credentials are linked to their respective LinkedIn certificate
-      records. Technical credentials are presented separately from
-      participation-based learning activities.
-    </p>
-  </div>
-</section>
-
+    </section>
 
     <!-- ARTICLES -->
     <section id="articles">
       <div class="wrap">
+
         <div class="section-head">
           <div class="section-number">04 / Articles</div>
+
           <div>
             <h2>Ideas beyond<br>the build.</h2>
+
             <p class="section-sub">
               Writing is another way to investigate a system: clarify a
               question, explain a decision, and share what the process reveals.
@@ -1073,7 +1549,9 @@
         <div class="article-panel">
           <div>
             <div class="section-kicker">Articles & perspectives · LinkedIn</div>
+
             <h3>Notes on AI, engineering, and building technology.</h3>
+
             <p>
               I share articles and technical perspectives on LinkedIn,
               covering AI, engineering, software systems, electronics, and
@@ -1081,18 +1559,28 @@
               my LinkedIn articles to explore the writing published there.
             </p>
           </div>
-          <a class="pill" href="https://in.linkedin.com/in/nachiket-narkhede/recent-activity/articles/" target="_blank" rel="noopener noreferrer">Read articles ↗</a>
+
+          <a
+            class="pill"
+            href="https://in.linkedin.com/in/nachiket-narkhede/recent-activity/articles/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Read articles ↗</a>
         </div>
+
       </div>
     </section>
 
     <!-- APPROACH -->
     <section id="approach">
       <div class="wrap">
+
         <div class="section-head">
           <div class="section-number">05 / Approach</div>
+
           <div>
             <h2>Curiosity is a start.<br>Evidence is the work.</h2>
+
             <p class="section-sub">
               The aim isn't to make projects look more advanced than they
               are. It's to understand a problem, build something real, test
@@ -1102,21 +1590,34 @@
         </div>
 
         <div class="notes-grid">
+
           <article class="note">
             <div class="mini">01 / Understand</div>
             <h3>Start with the system</h3>
-            <p>Define the problem and its constraints before choosing tools or writing code.</p>
+            <p>
+              Define the problem and its constraints before choosing
+              tools or writing code.
+            </p>
           </article>
+
           <article class="note">
             <div class="mini">02 / Build</div>
             <h3>Make it observable</h3>
-            <p>Prefer clear behaviour, useful status information, and failure paths that can be understood.</p>
+            <p>
+              Prefer clear behaviour, useful status information, and
+              failure paths that can be understood.
+            </p>
           </article>
+
           <article class="note">
             <div class="mini">03 / Refine</div>
             <h3>Document the limits</h3>
-            <p>Separate what has been implemented, what has been tested, and what still needs evidence.</p>
+            <p>
+              Separate what has been implemented, what has been tested,
+              and what still needs evidence.
+            </p>
           </article>
+
         </div>
       </div>
     </section>
@@ -1124,26 +1625,49 @@
     <!-- ABOUT -->
     <section id="about">
       <div class="wrap about-layout">
+
         <div class="section-number">06 / About</div>
+
         <div>
           <h2>Learning across<br>boundaries.</h2>
 
           <div class="about-copy" style="margin-top:28px">
+
             <p>
-              I'm studying <strong>Electronics & Telecommunication
-              Engineering</strong> at Sandip Institute of Technology &
+              I'm studying <strong>Electronics &amp; Telecommunication
+              Engineering</strong> at Sandip Institute of Technology &amp;
               Research Centre, Nashik. My interests span embedded systems,
               semiconductor technology, AI-enabled software, and the
               mathematics that connects them.
             </p>
 
             <div class="principles">
-              <div class="principle"><span>01</span><div>Electronics and embedded systems</div></div>
-              <div class="principle"><span>02</span><div>AI systems and orchestration</div></div>
-              <div class="principle"><span>03</span><div>Semiconductor technology</div></div>
-              <div class="principle"><span>04</span><div>Reliable software architecture</div></div>
-              <div class="principle"><span>05</span><div>Technical communication</div></div>
+              <div class="principle">
+                <span>01</span>
+                <div>Electronics and embedded systems</div>
+              </div>
+
+              <div class="principle">
+                <span>02</span>
+                <div>AI systems and orchestration</div>
+              </div>
+
+              <div class="principle">
+                <span>03</span>
+                <div>Semiconductor technology</div>
+              </div>
+
+              <div class="principle">
+                <span>04</span>
+                <div>Reliable software architecture</div>
+              </div>
+
+              <div class="principle">
+                <span>05</span>
+                <div>Technical communication</div>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -1152,12 +1676,16 @@
     <!-- CONTACT -->
     <section class="contact" id="contact">
       <div class="wrap contact-inner">
+
         <div class="section-number">07 / Say hello</div>
+
         <div>
           <div class="eyebrow">Ideas, feedback, collaboration</div>
+
           <h2>Good work gets<br>better in conversation.</h2>
 
           <div class="contact-bottom">
+
             <p>
               If you're working on embedded systems, AI infrastructure,
               semiconductor technology, or adjacent research, I'd be glad
@@ -1168,12 +1696,15 @@
               <a class="pill" href="https://github.com/nachiketnarkhede" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
               <a class="pill" href="https://in.linkedin.com/in/nachiket-narkhede" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
             </div>
+
           </div>
         </div>
       </div>
     </section>
+
   </main>
 
+  <!-- FOOTER -->
   <footer class="wrap">
     <span>© <span id="year">2026</span> Nachiket Narkhede</span>
     <span>Independent work · Continuously learning.</span>
@@ -1181,7 +1712,9 @@
   </footer>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
   </script>
+
 </body>
 </html>
